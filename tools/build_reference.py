@@ -569,11 +569,21 @@ def section_of(source_lines):
                 current = m2.group(1).strip()
         elif line.startswith("export "):
             rest = line[len("export "):]
+            is_method = rest.startswith("method ")
             for kw in ("enum ", "type ", "method "):
                 if rest.startswith(kw):
                     rest = rest[len(kw):]
                     break
-            out[rest.split("(")[0].strip()] = current
+            name = rest.split("(")[0].strip()
+            # Key by the caller-facing name. Six names are shared across
+            # receivers (equals, to_iso, plus, minus, normalized, to_unix), so
+            # a bare-name key silently drops all but the last of each.
+            if is_method and "(" in rest:
+                inner = rest[rest.find("(") + 1:]
+                first = inner.split(",")[0].strip()
+                recv = first.split()[0] if first else ""
+                name = f"{recv}.{name}"
+            out[name] = current
     return out
 
 
@@ -583,7 +593,7 @@ def render_task_index(exports, sections):
                "question you arrived with rather than by name. Two indexes for "
                "two ways of remembering things.")
     out.append("")
-    index = {e.name: e for e in exports}
+    index = {e.display: e for e in exports}
     placed = set()
     seen_titles = []
     for key, question in SECTION_QUESTIONS:

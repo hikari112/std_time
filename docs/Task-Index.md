@@ -4,6 +4,8 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Build a date, or convert one to and from an instant
 
+- [`DateTime.to_unix`](API-DateTime#to_unix) The Unix timestamp this DateTime denotes, using the offset it carries.
+- [`DateTime.weekday`](API-DateTime#weekday) The weekday of this date, computed from the calendar on every call.
 - [`date_to_unix`](API-Functions#date_to_unix) Convert a civil date-time to a Unix timestamp.
 - [`date_to_weekday`](API-Functions#date_to_weekday) Day of week for a civil date, derived from the same civil algorithm as every other function here.
 - [`days_from_civil`](API-Functions#days_from_civil) Days elapsed from 1970-01-01 to a civil date.
@@ -13,13 +15,15 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 - [`is_valid_date`](API-Functions#is_valid_date) Whether a civil moment exists, without raising.
 - [`new_datetime`](API-Functions#new_datetime) Build a DateTime from civil fields.
 - [`unix_to_date`](API-Functions#unix_to_date) Convert a Unix timestamp to a civil date-time.
-- [`DateTime.weekday`](API-DateTime#weekday) The weekday of this date, computed from the calendar on every call.
 
 ## Work with weekdays
 
 - [`Weekday.to_int`](API-Weekday#to_int) Numeric code for a weekday, 0 = Sunday through 6 = Saturday.
 - [`Weekday.to_iso_dow`](API-Weekday#to_iso_dow) ISO-8601 numbering for this weekday, 1 = Monday through 7 = Sunday.
 - [`weekday_from_int`](API-Functions#weekday_from_int) Weekday for a numeric code, 0 = Sunday through 6 = Saturday.
+
+- [`Weekday.minus`](API-Weekday#minus) The weekday n days earlier in the weekly cycle, wrapping.
+- [`Weekday.plus`](API-Weekday#plus) The weekday n days later in the weekly cycle, wrapping.
 
 ## Find the nth weekday of a month
 
@@ -28,14 +32,14 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Ask which week, quarter or day of year this is
 
-- [`date_from_day_of_year`](API-Functions#date_from_day_of_year) Civil date for an ordinal day of the year.
-- [`date_from_iso_week`](API-Functions#date_from_iso_week) Civil date for an ISO-8601 week date.
 - [`DateTime.day_of_year`](API-DateTime#day_of_year) Day of the year, 1 for 1 January.
 - [`DateTime.iso_week`](API-DateTime#iso_week) ISO-8601 week number.
 - [`DateTime.iso_week_year`](API-DateTime#iso_week_year) ISO-8601 week-based year, which is not always the calendar year: 2027-01-01 belongs to week-year 2026.
-- [`quarter`](API-Functions#quarter) Calendar quarter containing a month, or the fiscal quarter, when the fiscal year begins in some other month.
 - [`DateTime.week_of_month`](API-DateTime#week_of_month) Which week-row of its month this date falls in, where week 1 is the possibly-partial week containing the 1st.
 - [`DateTime.weekday_ordinal_in_month`](API-DateTime#weekday_ordinal_in_month) Which occurrence of its own weekday this date is within its month: the 3rd Friday answers 3.
+- [`date_from_day_of_year`](API-Functions#date_from_day_of_year) Civil date for an ordinal day of the year.
+- [`date_from_iso_week`](API-Functions#date_from_iso_week) Civil date for an ISO-8601 week date.
+- [`quarter`](API-Functions#quarter) Calendar quarter containing a month, or the fiscal quarter, when the fiscal year begins in some other month.
 
 ## Move a date by calendar amounts
 
@@ -124,18 +128,18 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Work with time zones and daylight saving
 
-- [`changed`](API-Functions#changed) Whether a unit boundary in a zone falls between two instants: the "is this a new day?" test, answered against a real calendar instead of the chart's own session grid.
-- [`dst_end`](API-Functions#dst_end) The instant daylight saving ends in a zone in a year.
-- [`dst_start`](API-Functions#dst_start) The instant daylight saving begins in a zone in a year.
 - [`Zone.is_ambiguous`](API-Zone#is_ambiguous) Whether a local civil time happened twice, because a fall-back transition repeated it.
-- [`is_dst`](API-Functions#is_dst) Whether daylight saving is in force in a zone at an instant.
 - [`Zone.is_gap`](API-Zone#is_gap) Whether a local civil time never happened, because a spring-forward transition skipped over it.
-- [`offset_at`](API-Functions#offset_at) Offset from UTC in force in a zone at an instant, daylight saving applied.
-- [`offset_at_rule`](API-Functions#offset_at_rule) Offset in force at an instant under an arbitrary rule.
 - [`Zone.rule`](API-Zone#rule) The daylight-saving rule in force for a zone in a given year.
 - [`Zone.rules_from`](API-Zone#rules_from) The first year from which a zone's rules are modelled exactly.
 - [`Zone.std_offset`](API-Zone#std_offset) The standard, i.e. winter, offset of a zone in hours.
 - [`Zone.to_unix`](API-Zone#to_unix) Convert a local civil time in this zone to an instant, resolving gaps and overlaps explicitly rather than silently.
+- [`changed`](API-Functions#changed) Whether a unit boundary in a zone falls between two instants: the "is this a new day?" test, answered against a real calendar instead of the chart's own session grid.
+- [`dst_end`](API-Functions#dst_end) The instant daylight saving ends in a zone in a year.
+- [`dst_start`](API-Functions#dst_start) The instant daylight saving begins in a zone in a year.
+- [`is_dst`](API-Functions#is_dst) Whether daylight saving is in force in a zone at an instant.
+- [`offset_at`](API-Functions#offset_at) Offset from UTC in force in a zone at an instant, daylight saving applied.
+- [`offset_at_rule`](API-Functions#offset_at_rule) Offset in force at an instant under an arbitrary rule.
 - [`unix_to_date_zone`](API-Functions#unix_to_date_zone) Convert an instant to civil time in a zone, daylight saving applied.
 
 ## Move a date between zones
@@ -150,16 +154,18 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Work with calendar amounts of time
 
+- [`DateTime.minus_period`](API-DateTime#minus_period) Subtract a Period from a DateTime.
+- [`Period.equals`](API-Period#equals) Whether two periods have identical fields.
 - [`Period.is_negative`](API-Period#is_negative) Whether any field of this period is negative.
 - [`Period.is_zero`](API-Period#is_zero) Whether every field of this period is zero.
 - [`Period.minus`](API-Period#minus) The difference of two periods, field by field.
-- [`DateTime.minus_period`](API-DateTime#minus_period) Subtract a Period from a DateTime.
 - [`Period.multiplied_by`](API-Period#multiplied_by) This period with every field scaled.
 - [`Period.negated`](API-Period#negated) This period with every field's sign flipped.
 - [`Period.normalized`](API-Period#normalized) This period with surplus months folded into years, as java.time's Period.normalized: 1 year 15 months becomes 2 years 3 months.
-- [`parse_iso_period`](API-Functions#parse_iso_period) Parse an ISO-8601 period such as "P1Y2M3D", "P3M", "P1W", "-P10D" or "P-1Y-2M-3D".
 - [`Period.plus`](API-Period#plus) The sum of two periods, field by field.
+- [`Period.to_iso`](API-Period#to_iso) This period in ISO-8601 form, e.g. "P1Y2M3D".
 - [`Period.to_total_months`](API-Period#to_total_months) The years and months of this period expressed as a month count.
+- [`parse_iso_period`](API-Functions#parse_iso_period) Parse an ISO-8601 period such as "P1Y2M3D", "P3M", "P1W", "-P10D" or "P-1Y-2M-3D".
 
 ## Work with spans of instants
 
@@ -179,28 +185,28 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Ask whether a market is open on a date
 
-- [`Exchange.calendar_from`](API-Exchange#calendar_from) The first year an exchange's calendar answers exactly.
-- [`Exchange.calendar_through`](API-Exchange#calendar_through) The last year an exchange's calendar answers exactly, or na when its rules extrapolate without a horizon.
 - [`DateTime.closed_for_holiday`](API-DateTime#closed_for_holiday) Whether an exchange is shut for a holiday, as a three-valued answer that says so when the question falls outside the calendar's range.
 - [`DateTime.holiday_name`](API-DateTime#holiday_name) The name of the holiday or closure shutting an exchange on a date.
 - [`DateTime.is_holiday`](API-DateTime#is_holiday) Whether an exchange is closed for a scheduled holiday.
 - [`DateTime.is_trading_day`](API-DateTime#is_trading_day) Whether an exchange holds a regular session on a date: not a weekend, not a scheduled holiday.
-- [`next_holiday_after`](API-Functions#next_holiday_after) The next date an exchange is closed for a holiday, strictly after the date an instant falls on in that exchange's zone.
+- [`Exchange.calendar_from`](API-Exchange#calendar_from) The first year an exchange's calendar answers exactly.
+- [`Exchange.calendar_through`](API-Exchange#calendar_through) The last year an exchange's calendar answers exactly, or na when its rules extrapolate without a horizon.
 - [`Exchange.zone`](API-Exchange#zone) The zone an exchange's local session times are quoted in.
+- [`next_holiday_after`](API-Functions#next_holiday_after) The next date an exchange is closed for a holiday, strictly after the date an instant falls on in that exchange's zone.
 
 ## Count or move by trading days
 
 - [`DateTime.adjusted`](API-DateTime#adjusted) Roll a date onto a trading day using an ISDA business-day convention.
-- [`first_trading_day_of_month`](API-Functions#first_trading_day_of_month) The first trading day of a month.
-- [`last_trading_day_of_month`](API-Functions#last_trading_day_of_month) The last trading day of a month.
 - [`DateTime.minus_trading_days`](API-DateTime#minus_trading_days) Move backward a number of trading days.
 - [`DateTime.next_trading_day`](API-DateTime#next_trading_day) The next trading day strictly after a date, skipping weekends and scheduled holidays.
 - [`DateTime.plus_trading_days`](API-DateTime#plus_trading_days) Move forward or backward a number of trading days, skipping weekends and holidays.
 - [`DateTime.prev_trading_day`](API-DateTime#prev_trading_day) The previous trading day strictly before a date.
 - [`DateTime.trading_day_of_month`](API-DateTime#trading_day_of_month) The ordinal of a date among its month's trading days: 1 on the month's first trading day, trading_days_in_month on its last.
 - [`DateTime.trading_days_between`](API-DateTime#trading_days_between) Count of trading days between two dates.
-- [`trading_days_in_month`](API-Functions#trading_days_in_month) How many trading days a month holds.
 - [`DateTime.weekdays_between`](API-DateTime#weekdays_between) Count of weekdays (Monday through Friday) between two dates, closed form: no loop and no calendar.
+- [`first_trading_day_of_month`](API-Functions#first_trading_day_of_month) The first trading day of a month.
+- [`last_trading_day_of_month`](API-Functions#last_trading_day_of_month) The last trading day of a month.
+- [`trading_days_in_month`](API-Functions#trading_days_in_month) How many trading days a month holds.
 
 ## Compute a year fraction for pricing
 
@@ -209,35 +215,30 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Find an option expiry or VIX settlement
 
-- [`ExpiryKind`](API-Enums#expirykind) A listed expiry cycle.
-- [`expiries_between`](API-Functions#expiries_between) Every expiry of a cycle whose date falls in a span.
 - [`DateTime.is_expiry_day`](API-DateTime#is_expiry_day) Whether a date is an expiry of a given cycle.
 - [`DateTime.is_triple_witching`](API-DateTime#is_triple_witching) Whether a date is a quarterly expiry, when index futures, index options and equity options all expire together.
+- [`DateTime.weekly_expiry`](API-DateTime#weekly_expiry) The expiry of the weekly contract covering a date: that week's Friday, rolled back to the previous trading day when the Friday does not trade.
+- [`ExpiryKind`](API-Enums#expirykind) A listed expiry cycle.
+- [`expiries_between`](API-Functions#expiries_between) Every expiry of a cycle whose date falls in a span.
 - [`next_expiry_after`](API-Functions#next_expiry_after) The next expiry of a close-settled cycle strictly after an instant.
 - [`next_vix_settlement_after`](API-Functions#next_vix_settlement_after) The instant of the next VIX final settlement strictly after a given one.
 - [`parse_tenor`](API-Functions#parse_tenor) Parse a tenor string such as "1D", "2W", "3M" or "1Y" into a Period.
 - [`quarterly_expiry`](API-Functions#quarterly_expiry) Unix timestamp of a quarterly expiry.
 - [`vix_settlement`](API-Functions#vix_settlement) Unix timestamp of a VIX final settlement: the Special Opening Quotation moment, when Cboe's opening auction in the constituent SPX series prints the settlement value.
 - [`vix_settlement_day`](API-Functions#vix_settlement_day) VIX final settlement day for a contract month: the Wednesday thirty days before the following month's third Friday...
-- [`DateTime.weekly_expiry`](API-DateTime#weekly_expiry) The expiry of the weekly contract covering a date: that week's Friday, rolled back to the previous trading day when the Friday does not trade.
 
 ## Work with trading sessions and bars
 
 - [`Session`](API-Session#session) A recurring local-time window, resolved against a calendar.
-- [`SessionId`](API-Enums#sessionid) Standard trading sessions, ready to use.
 - [`Session.bars_per_session`](API-Session#bars_per_session) How many chart bars of a given timeframe this session holds on a date, counting a clipped final bar as a bar.
 - [`Session.bounds`](API-Session#bounds) The instants this session occupies on a given start date, or na when it does not run that day.
 - [`Session.break_bounds`](API-Session#break_bounds) The intraday break inside this session's window on a given start date.
 - [`Session.crosses_midnight`](API-Session#crosses_midnight) Whether this session's window crosses local midnight.
-- [`day_mask`](API-Functions#day_mask) The weekday bitmask for a contiguous run of days, from one weekday through another inclusive, wrapping past Saturday if it has to.
 - [`Session.is_first_bar`](API-Session#is_first_bar) Whether a bar is the first bar of this session.
 - [`Session.is_last_bar`](API-Session#is_last_bar) Whether a bar is the last bar of this session, answered on that bar, not one bar later.
 - [`Session.is_open`](API-Session#is_open) Whether this session is trading at an instant.
 - [`Session.length_minutes`](API-Session#length_minutes) The nominal length of this session in minutes, before any half-day adjustment.
-- [`new_session`](API-Functions#new_session) Build a custom session.
-- [`parse_session`](API-Functions#parse_session) Parse a TradingView-style session string such as "0930-1600" or "0930-1600:23456", where the digits after the colon are weekdays with 1 meaning Sunday.
 - [`Session.progress`](API-Session#progress) How far through this session's envelope an instant sits.
-- [`session_of`](API-Functions#session_of) One of the built-in standard sessions.
 - [`Session.time_to_close`](API-Session#time_to_close) Milliseconds until this session's envelope closes.
 - [`Session.time_to_open`](API-Session#time_to_open) Milliseconds until this session's next open, strictly after the given instant.
 - [`Session.to_spec`](API-Session#to_spec) This session as a TradingView-style string, e.g. "0930-1600:23456", or "0900-1130,1230-1530:23456" when the session breaks for lunch.
@@ -246,33 +247,39 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 - [`Session.window_before`](API-Session#window_before) The most recent window of this session that has already ended at an instant: the completed-previous window.
 - [`Session.window_of_bar`](API-Session#window_of_bar) The session window a bar touches, which is not the window that contains one of the bar's edges.
 - [`Session.windows_between`](API-Session#windows_between) Every window of this session that intersects a span, in ascending order.
+- [`SessionId`](API-Enums#sessionid) Standard trading sessions, ready to use.
+- [`day_mask`](API-Functions#day_mask) The weekday bitmask for a contiguous run of days, from one weekday through another inclusive, wrapping past Saturday if it has to.
+- [`new_session`](API-Functions#new_session) Build a custom session.
+- [`parse_session`](API-Functions#parse_session) Parse a TradingView-style session string such as "0930-1600" or "0930-1600:23456", where the digits after the colon are weekdays with 1 meaning Sunday.
+- [`session_of`](API-Functions#session_of) One of the built-in standard sessions.
 
 ## Find FOMC dates and index rebalances
 
 - [`DateTime.fomc_day`](API-DateTime#fomc_day) Whether a date falls on either day of a scheduled FOMC meeting.
 - [`DateTime.fomc_decision_day`](API-DateTime#fomc_decision_day) Whether a date is the second day of an FOMC meeting, when the statement is released.
+- [`Known.is_yes`](API-Enums#is_yes) Collapse a three-valued answer to a bool, treating UNKNOWN as false.
 - [`fomc_known_from`](API-Functions#fomc_known_from) The first year for which the FOMC meeting table is known.
 - [`fomc_known_through`](API-Functions#fomc_known_through) The last year for which the FOMC meeting table is known.
-- [`Known.is_yes`](API-Enums#is_yes) Collapse a three-valued answer to a bool, treating UNKNOWN as false.
 - [`next_fomc_after`](API-Functions#next_fomc_after) The instant of the next FOMC decision strictly after a given one.
 - [`russell_rebalance_day`](API-Functions#russell_rebalance_day) FTSE Russell annual reconstitution: the last Friday in June, one of the highest-volume closes of the year.
 
 ## Turn a date into a string
 
-- [`Weekday.abbr`](API-Weekday#abbr) The three-letter English abbreviation of a weekday.
-- [`format_iso_duration`](API-Functions#format_iso_duration) A span of milliseconds in ISO-8601 duration form, e.g. "P2DT4H13M9S".
-- [`format_ixdtf`](API-Functions#format_ixdtf) Format an instant in the RFC 9557 extended format, which appends the zone in brackets so the reader knows which rules produced the offset.
-- [`format_yymmdd`](API-Functions#format_yymmdd) Format a timestamp as the six-character yyMMdd date fragment used by OPRA-style option symbols, resolved in a zone you name rather than in the chart's...
-- [`month_abbr`](API-Functions#month_abbr) The three-letter English abbreviation of a month.
-- [`month_name`](API-Functions#month_name) The English name of a month.
-- [`Weekday.name`](API-Weekday#name) The English name of a weekday.
-- [`Zone.to_iana`](API-Zone#to_iana) The IANA identifier for a zone, e.g. "America/New_York".
-- [`Interval.to_iso`](API-Interval#to_iso) This interval in ISO-8601 interval form, "start/end", with both endpoints in UTC.
+- [`DateTime.to_iso`](API-DateTime#to_iso) Format a DateTime as a full ISO-8601 date-time with its offset designator: the form that survives a round trip, so parse_iso(d.to_iso()) gives back d.
 - [`DateTime.to_iso_date`](API-DateTime#to_iso_date) Format a DateTime as an ISO-8601 date only.
 - [`DateTime.to_iso_local`](API-DateTime#to_iso_local) Format a DateTime as an ISO-8601 date-time string without the offset designator, i.e. as a local wall-clock reading.
 - [`DateTime.to_iso_ordinal_date`](API-DateTime#to_iso_ordinal_date) Format a DateTime as an ISO-8601 ordinal date.
 - [`DateTime.to_iso_time`](API-DateTime#to_iso_time) Format a DateTime as an ISO-8601 time only.
 - [`DateTime.to_iso_week_date`](API-DateTime#to_iso_week_date) Format a DateTime as an ISO-8601 week date.
+- [`Interval.to_iso`](API-Interval#to_iso) This interval in ISO-8601 interval form, "start/end", with both endpoints in UTC.
+- [`Weekday.abbr`](API-Weekday#abbr) The three-letter English abbreviation of a weekday.
+- [`Weekday.name`](API-Weekday#name) The English name of a weekday.
+- [`Zone.to_iana`](API-Zone#to_iana) The IANA identifier for a zone, e.g. "America/New_York".
+- [`format_iso_duration`](API-Functions#format_iso_duration) A span of milliseconds in ISO-8601 duration form, e.g. "P2DT4H13M9S".
+- [`format_ixdtf`](API-Functions#format_ixdtf) Format an instant in the RFC 9557 extended format, which appends the zone in brackets so the reader knows which rules produced the offset.
+- [`format_yymmdd`](API-Functions#format_yymmdd) Format a timestamp as the six-character yyMMdd date fragment used by OPRA-style option symbols, resolved in a zone you name rather than in the chart's...
+- [`month_abbr`](API-Functions#month_abbr) The three-letter English abbreviation of a month.
+- [`month_name`](API-Functions#month_name) The English name of a month.
 
 - [`DateTime.format`](API-DateTime#format) Format this date-time with a pattern.
 - [`format_time`](API-Functions#format_time) Format an instant in a zone.
@@ -284,10 +291,10 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 ## Bridge to Pine's own date built-ins
 
+- [`Weekday.to_pine_dow`](API-Weekday#to_pine_dow) This weekday in Pine's own numbering, where Sunday is 1, the scale used by the dayofweek.* constants and returned by the dayofweek built-in.
 - [`format_duration`](API-Functions#format_duration) Format a span of milliseconds as a human-readable duration, largest unit first.
 - [`format_relative`](API-Functions#format_relative) An instant described relative to another, the way a human says it: "3d 4h ago" for the past, "in 2h 15m" for the future, "now" within a second either way.
 - [`month_from_name`](API-Functions#month_from_name) The month number for an English month name or three-letter abbreviation, case-insensitive.
-- [`Weekday.to_pine_dow`](API-Weekday#to_pine_dow) This weekday in Pine's own numbering, where Sunday is 1, the scale used by the dayofweek.* constants and returned by the dayofweek built-in.
 - [`weekday_from_name`](API-Functions#weekday_from_name) The Weekday for an English day name or three-letter abbreviation, case-insensitive.
 - [`weekday_from_pine_dow`](API-Functions#weekday_from_pine_dow) The Weekday for a value from Pine's dayofweek built-in or the dayofweek.* constants, where Sunday is 1.
 - [`zone_from_iana`](API-Functions#zone_from_iana) The Zone for an IANA identifier, so a string from syminfo.timezone or a user input can be turned into something the rule engine understands.
@@ -297,6 +304,12 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 
 - [`BusinessDay`](API-Enums#businessday) ISDA business-day conventions: how to roll a date that lands on a non-trading day.
 - [`DateTime`](API-DateTime#datetime) A civil date-time held together with the fixed UTC offset it is expressed in.
+- [`DateTime.equals`](API-DateTime#equals) Whether two date-times denote the same civil fields and the same offset.
+- [`DateTime.is_early_close`](API-DateTime#is_early_close) Whether an exchange closes early on a date.
+- [`DateTime.normalized`](API-DateTime#normalized) A copy of this DateTime with the day clamped into the length of its month.
+- [`DateTime.same_instant`](API-DateTime#same_instant) Whether two date-times are the same instant, regardless of the offset each is expressed in.
+- [`DateTime.session_close`](API-DateTime#session_close) The instant an exchange's session closes on a date, accounting for early closes.
+- [`DateTime.session_open`](API-DateTime#session_open) The instant an exchange's session opens on a date.
 - [`DayCount`](API-Enums#daycount) Day-count conventions, per the ISDA 2006 Definitions.
 - [`DstRule`](API-Zone#dstrule) A daylight-saving rule, expressed as data so that adding a zone to the Zone enum is a constant rather than a new code path.
 - [`Exchange`](API-Exchange#exchange) An exchange calendar.
@@ -310,9 +323,5 @@ The same exports as [API Index](API-Index), grouped by the question you arrived 
 - [`Weekday`](API-Weekday#weekday) Day of the week.
 - [`Zone`](API-Zone#zone) A time zone, meaning a standard offset plus a daylight-saving rule, not a fixed offset.
 - [`holidays_between`](API-Functions#holidays_between) Every date an exchange is closed for a holiday within a span.
-- [`DateTime.is_early_close`](API-DateTime#is_early_close) Whether an exchange closes early on a date.
 - [`monthly_expiry`](API-Functions#monthly_expiry) Unix timestamp of a standard US equity monthly option expiry at a chosen local close time.
 - [`monthly_expiry_day`](API-Functions#monthly_expiry_day) Standard US equity monthly option expiry: the third Friday of the month, moved to the preceding Thursday when that Friday is a market holiday.
-- [`DateTime.same_instant`](API-DateTime#same_instant) Whether two date-times are the same instant, regardless of the offset each is expressed in.
-- [`DateTime.session_close`](API-DateTime#session_close) The instant an exchange's session closes on a date, accounting for early closes.
-- [`DateTime.session_open`](API-DateTime#session_open) The instant an exchange's session opens on a date.
