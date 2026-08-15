@@ -1,33 +1,35 @@
 # Performance and Limits
 
-Pine imposes limits that a date library of this size runs into, and this one was
-shaped by them. This is the page java.time would call thread safety: not about
-correctness, but about what happens when you call the wrong thing in the wrong
-place.
+What actually costs you something when you use this library on a chart. Two of
+the three sections are about loops; the first is about a limit that turns out
+not to apply to you at all.
 
-## Compiled token budget
+## The token cap is not your problem
 
-TradingView's publish limit is **100,256 compiled tokens**, and there is no
-server-side check for it.
+**Importing a library does not spend your compiled-token budget.** A library
+compiles as its own unit, and the import does not copy its code into the
+importing script.
 
-**Importing a library does not spend your budget.** A library compiles as its
-own unit, and the import does not copy its code into the importing script. So
-`std_time`'s weight is not subtracted from yours, and a script that imports it
-starts with the same room as one that does not.
+That is measured, not assumed. A probe script importing `std_time` alongside a
+6,000-character string constant, which is about 12,000 compiled tokens on its
+own, adds to a chart cleanly. If the library's weight counted, the total would
+be roughly 104,000 against a 100,256 cap and the compile would fail. It does
+not.
 
-The library's own weight is worth recording anyway, because it shaped the
-implementation. It compiles at roughly **92,000** tokens. String data costs two
-compiled tokens per character, and the dated closure tables originally pushed it
-to **104,509**, over the cap. Re-encoding 1,227 dates as three-character base-36
-day numbers saved 6,135 characters, about 12,000 tokens, and brought it under.
-That is why the tables are unreadable base-36 rather than `yyyymmdd`.
+So the numbers below are history, not a tax. They are here because they explain
+an otherwise baffling piece of the source, and because they matter if you ever
+publish a library of your own.
 
-What still applies to your own script:
+TradingView's publish limit is **100,256 compiled tokens**, enforced only when a
+script is added to a chart and not by the server-side syntax check. String data
+costs **two compiled tokens per character**. `std_time` compiles at roughly
+**92,000**, but the dated closure tables originally pushed it to **104,509**,
+over the cap. Re-encoding 1,227 dates as three-character base-36 day numbers
+saved 6,135 characters, about 12,000 tokens, and brought it under. That is why
+the closure tables are unreadable base-36 keys rather than `yyyymmdd`.
 
-- The server-side syntax check does **not** enforce the token cap. Only an
-  on-chart compile does, so a script that checks clean can still fail to add.
-- If you are near the limit, your own string constants are the first place to
-  look, at two tokens per character.
+If your own script ever does hit the cap, your string constants are the first
+place to look, at two tokens per character.
 
 ## Operations that walk
 
