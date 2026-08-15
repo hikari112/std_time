@@ -440,6 +440,11 @@ def render_page(page, exports, all_exports):
     out.append(f"> Concepts first: read **[{concept_name}]({concept_page})** "
                f"before this page.")
     out.append("")
+    out.append("Signatures below are shown as the library declares them. From a "
+               "script that imports it, every type and enum name takes your "
+               "import alias: `t.DateTime`, `t.Overflow.REJECT`, "
+               "`t.Exchange.NYSE`. A bare `DateTime` will not compile.")
+    out.append("")
     if page in PAGE_INTROS:
         out.append(PAGE_INTROS[page])
         out.append("")

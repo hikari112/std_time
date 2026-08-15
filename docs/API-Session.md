@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Sessions](Sessions)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 A `Session` is a recurring local-time window on selected weekdays, resolved against a real calendar. Defined that way rather than as a pair of timestamps, it survives daylight saving, holidays and half days without any of them being special-cased at the call site.
 
 ## The type

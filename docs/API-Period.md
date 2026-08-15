@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Civil and Exact Arithmetic](Civil-and-Exact-Arithmetic)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 A `Period` is a calendar-flavoured amount of time in the sense of java.time's `Period`: years, months and days. It is not convertible to milliseconds without a reference date, because months and years have no fixed length.
 
 ## The type

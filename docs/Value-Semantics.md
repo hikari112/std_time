@@ -9,8 +9,8 @@ date its own constructor would have refused.
 ## 1. Assignment aliases, it does not copy
 
 ```pine
-DateTime a = t.new_datetime(2025, 6, 15)
-DateTime b = a
+t.DateTime a = t.new_datetime(2025, 6, 15)
+t.DateTime b = a
 b.Month := 3        // a.Month is now 3 as well
 ```
 
@@ -24,7 +24,7 @@ Two ways out:
 - **The withers**, which copy for you and validate on the way through.
 
 ```pine
-DateTime b = a.with_month(3)     // a is untouched
+t.DateTime b = a.with_month(3)     // a is untouched
 ```
 
 Prefer the wither. It is shorter, and unlike a raw field assignment it cannot
@@ -42,9 +42,9 @@ record holds 31 February, a date `new_datetime` would have refused, and every
 adjuster downstream inherits it.
 
 ```pine
-DateTime d = t.new_datetime(2025, 1, 31)
+t.DateTime d = t.new_datetime(2025, 1, 31)
 d.Month := 2                 // d is now 31 February
-DateTime fixed = d.normalized()   // 2025-02-28
+t.DateTime fixed = d.normalized()   // 2025-02-28
 ```
 
 `normalized()` repairs a day past the end of its month. It returns `na` if
@@ -74,9 +74,9 @@ Pine's `.new()` takes named arguments and every field here has a default, so a
 partly specified record needs no wrapper function and no long positional call:
 
 ```pine
-Period.new(Months = 3)                      // three months, no years, no days
-DstRule.new(StartMonth = 4, EndMonth = 9)
-Interval.new(ToMS = t)
+t.Period.new(Months = 3)                      // three months, no years, no days
+t.DstRule.new(StartMonth = 4, EndMonth = 9)
+t.Interval.new(ToMS = ms)
 ```
 
 `DateTime` is the exception. Prefer `new_datetime`, which validates the field

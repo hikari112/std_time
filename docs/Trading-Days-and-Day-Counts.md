@@ -97,8 +97,9 @@ price. Per the ISDA 2006 Definitions:
 | `ACT_252` | Trading days over 252. Business-day time in equity volatility |
 
 ```pine
-float tau = t.year_fraction(now_ms, expiry_ms, t.DayCount.ACT_365F)
-int    n  = t.day_count_days(now_ms, expiry_ms, t.DayCount.D30_360)
+int   expiry = t.monthly_expiry(2025, 12)
+float tau    = t.year_fraction(time, expiry, t.DayCount.ACT_365F)
+int   n      = t.day_count_days(time, expiry, t.DayCount.D30_360)
 ```
 
 `day_count_days` exposes the numerator separately because for the 30/360 family

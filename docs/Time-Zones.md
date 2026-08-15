@@ -96,10 +96,10 @@ if na(ms)
 ## Finding the transitions themselves
 
 ```pine
-t.dst_start(2025, t.Zone.NEW_YORK)   // the instant clocks spring forward
-t.dst_end(2025, t.Zone.NEW_YORK)     // the instant they fall back
-t.is_dst(some_ms, t.Zone.NEW_YORK)   // whether daylight time was in force
-t.offset_at(some_ms, t.Zone.LONDON)  // the offset in force, in hours
+int  springs = t.dst_start(2025, t.Zone.NEW_YORK)  // the instant clocks go forward
+int  falls   = t.dst_end(2025, t.Zone.NEW_YORK)    // the instant they go back
+bool summer  = t.is_dst(time, t.Zone.NEW_YORK)     // was daylight time in force
+float off    = t.offset_at(time, t.Zone.LONDON)    // the offset in force, in hours
 ```
 
 `zone_offset_string(ms, z)` gives the offset in the spelling Pine's own timezone

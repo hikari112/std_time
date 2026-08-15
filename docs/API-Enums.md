@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Core Concepts](Core-Concepts)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 The option enums: the ones that name a choice rather than a thing. Enums stand in for bare ints and bools throughout the library, because a `Weekday` cannot be silently off by one and a `Known.UNKNOWN` will not type-check where a bool is expected. The three enums that carry methods of their own live with them: [Zone](API-Zone), [Exchange](API-Exchange) and [Weekday](API-Weekday).
 
 ## Members

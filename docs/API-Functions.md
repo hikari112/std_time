@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Core Concepts](Core-Concepts)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 The free functions. By the library's calling convention a function that builds a date takes loose ints, and a function that takes an instant takes it first and stays a free function, so constructors, instant accessors, parsers and formatters live here rather than as methods.
 
 ## Members

@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Exchange Calendars](Exchange-Calendars)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 An `Exchange` is a market calendar: holidays, observance shifts, early closes and lunch breaks. These are not variations of one calendar. Most questions about a calendar are methods on `DateTime`, not on `Exchange`: `d.is_trading_day(ex)`, not `ex.is_trading_day(d)`.
 
 ## Members

@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Core Concepts](Core-Concepts)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 `DateTime` is a civil date-time carrying a fixed offset, java.time's `OffsetDateTime`, not its `ZonedDateTime`. It records what a clock read and how far that clock sat from UTC. It does not know a zone's rules, so an offset stored in March is still that offset in July.
 
 ## The type

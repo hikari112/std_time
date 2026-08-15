@@ -66,7 +66,8 @@ date, or `na` when it does not run that day:
 ```pine
 iv = sess.bounds(t.today(t.Zone.NEW_YORK))
 if not na(iv)
-    box.new(left = iv.FromMS, right = iv.ToMS, ...)
+    box.new(left = iv.FromMS, top = high, right = iv.ToMS, bottom = low,
+            xloc = xloc.bar_time)
 ```
 
 Only `Year`, `Month` and `Day` of the argument are read. A session's window
@@ -112,8 +113,9 @@ a session that crosses midnight may not carry one at all.
 
 ```pine
 tokyo = t.session_of(t.SessionId.TSE_REGULAR)
-tokyo.is_open(lunchtime_ms)          // false
-not na(tokyo.bounds(d))              // true: the envelope still exists
+int noon = t.Zone.TOKYO.to_unix(2025, 6, 16, 12, 0)
+bool trading  = tokyo.is_open(noon)        // false: inside the lunch break
+bool has_day  = not na(tokyo.bounds(d))    // true: the envelope still exists
 ```
 
 On an HKEX half day the close comes in to 12:00 and the lunch break disappears

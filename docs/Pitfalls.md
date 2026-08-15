@@ -7,9 +7,9 @@ something you can check against.
 ## 1. `na()` on a `Known` is dead code
 
 ```pine
-Known k = d.closed_for_holiday(t.Exchange.SSE)
+t.Known k = d.closed_for_holiday(t.Exchange.SSE)
 if na(k)        // never true. na(Known.UNKNOWN) is false.
-    handle_unknown()
+    label.new(bar_index, high, "outside the table")
 ```
 
 The branch never runs and the `UNKNOWN` flows onward as though it had been

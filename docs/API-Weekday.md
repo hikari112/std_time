@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Core Concepts](Core-Concepts)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 `Weekday` is an enum rather than a bare int because 0=Sunday versus 1=Monday confusion is the most common class of date bug. Three numbering schemes meet here and none of them agree: this library counts Sunday as 0, ISO-8601 counts Monday as 1, and Pine's own `dayofweek` counts Sunday as 1. `to_int`, `to_iso_dow` and `to_pine_dow` are the three ways out.
 
 ## Members

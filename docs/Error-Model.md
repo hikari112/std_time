@@ -40,11 +40,9 @@ it. The economic calendar and `closed_for_holiday()` return this.
 It is a value, never `na`. This matters:
 
 ```pine
-Known k = d.closed_for_holiday(t.Exchange.SSE)
-if na(k)                    // dead code: na(Known.UNKNOWN) is false
-    ...
-if k == t.Known.UNKNOWN     // correct
-    ...
+t.Known k = d.closed_for_holiday(t.Exchange.SSE)
+bool wrong = na(k)                  // dead code: na(Known.UNKNOWN) is false
+bool right = k == t.Known.UNKNOWN   // correct
 ```
 
 `Known` exists because Pine's `bool` cannot hold `na` at all. `bool x = na` is a

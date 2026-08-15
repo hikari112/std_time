@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Time Zones](Time-Zones)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 A `Zone` is a standard offset plus a daylight-saving rule, not a fixed offset. Everything that needs real zone behaviour goes through here. `DstRule` is the data a zone's rule is expressed as.
 
 ## The type

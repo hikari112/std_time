@@ -2,6 +2,8 @@
 
 > Concepts first: read **[Core Concepts](Core-Concepts)** before this page.
 
+Signatures below are shown as the library declares them. From a script that imports it, every type and enum name takes your import alias: `t.DateTime`, `t.Overflow.REJECT`, `t.Exchange.NYSE`. A bare `DateTime` will not compile.
+
 An `Interval` is a half-open span of instants, `[FromMS, ToMS)`. Half-open so that consecutive intervals tile a timeline without overlapping at the join.
 
 ## The type
