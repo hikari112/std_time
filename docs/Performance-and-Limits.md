@@ -8,22 +8,26 @@ place.
 ## Compiled token budget
 
 TradingView's publish limit is **100,256 compiled tokens**, and there is no
-server-side check for it. The library compiles at roughly **92,000**, leaving
-about 8,000 for the script that imports it.
+server-side check for it.
 
-That number is not an accident. String data costs two compiled tokens per
-character, and the dated closure tables originally pushed the library to
-**104,509**, over the cap. Re-encoding 1,227 dates as three-character base-36
+**Importing a library does not spend your budget.** A library compiles as its
+own unit, and the import does not copy its code into the importing script. So
+`std_time`'s weight is not subtracted from yours, and a script that imports it
+starts with the same room as one that does not.
+
+The library's own weight is worth recording anyway, because it shaped the
+implementation. It compiles at roughly **92,000** tokens. String data costs two
+compiled tokens per character, and the dated closure tables originally pushed it
+to **104,509**, over the cap. Re-encoding 1,227 dates as three-character base-36
 day numbers saved 6,135 characters, about 12,000 tokens, and brought it under.
+That is why the tables are unreadable base-36 rather than `yyyymmdd`.
 
-Practical consequences:
+What still applies to your own script:
 
-- An indicator importing `std_time` has a working budget of roughly 8,000
-  compiled tokens. That is generous for logic and thin for large string
-  literals or long `switch` chains of your own.
 - The server-side syntax check does **not** enforce the token cap. Only an
   on-chart compile does, so a script that checks clean can still fail to add.
-- If you are near the limit, string constants are the first place to look.
+- If you are near the limit, your own string constants are the first place to
+  look, at two tokens per character.
 
 ## Operations that walk
 

@@ -35,13 +35,17 @@ The signatures on the reference pages are shown as the **library** declares
 them, where `DateTime` is unqualified and correct. Copying a signature into your
 own script is the usual way to hit this.
 
-## Budget for your own script
+## Compiled size
 
-The library compiles at roughly **92,000** tokens against TradingView's
-**100,256** publish cap, which leaves about 8,000 for the script importing it.
-That is comfortable for logic and tight for large string literals of your own.
+**An import does not spend your script's token budget.** TradingView compiles a
+library as its own unit, and importing one does not copy its code into the
+importing script, so `std_time`'s own weight is not subtracted from yours.
 
-Two things worth knowing before you go hunting for a phantom bug:
+The library's own weight is about **92,000** compiled tokens, measured against
+the 100,256 cap when the library itself was published. That is a fact about this
+library's publication, not a tax on yours.
+
+Two things that do apply to your script:
 
 - The **server-side syntax check does not enforce the token cap.** A script can
   check clean and still fail to add to the chart.

@@ -129,7 +129,8 @@ guard bar one if that matters.
   [Civil and Exact Arithmetic](Civil-and-Exact-Arithmetic).
 - **Assignment aliases.** `t.DateTime b = a` does not copy. See
   [Value Semantics](Value-Semantics).
-- **You have about 8,000 compiled tokens** left after the import. See
+- **The import does not eat your token budget.** A library compiles separately,
+  so porting to `std_time` does not cost you compiled size. See
   [Performance and Limits](Performance-and-Limits).
 
 ---

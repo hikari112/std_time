@@ -70,9 +70,10 @@ copies. Use `.copy()` or a wither. See [Value Semantics](Value-Semantics).
 for field equality or `same_instant()` for the moment.
 
 **My script checks clean but will not add to the chart.**
-The server-side check does not enforce the 100,256 compiled-token cap. The
-library uses about 92,000 of it. String constants cost two tokens per character
-and are the first place to look. See
+The server-side check does not enforce the 100,256 compiled-token cap, so that
+is the usual cause. It will not be the import: a library compiles as its own
+unit and does not spend your script's budget. Look at your own string constants
+first, at two compiled tokens per character. See
 [Performance and Limits](Performance-and-Limits).
 
 **`holidays_between` raised on my range.**
