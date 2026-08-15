@@ -27,7 +27,7 @@ Weekday.abbr()
 
 The three-letter English abbreviation of a weekday.
 
-**Returns** &nbsp; The abbreviation, e.g. "Fri".
+**Returns** &nbsp; The abbreviation, e.g. "Fri"..
 
 ### days_until
 
@@ -41,7 +41,7 @@ Forward distance in days from this weekday to another, never negative. A method 
 |---|---|
 | `other` | The target weekday. |
 
-**Returns** &nbsp; Days to advance from this to reach other, in [0, 6]. Zero when they are the same day: a week later is not what "until" means here.
+**Returns** &nbsp; Days to advance from this to reach other, in [0, 6]. Zero when they are the same day: a week later is not what "until" means here..
 
 ### minus
 
@@ -55,7 +55,7 @@ The weekday n days earlier in the weekly cycle, wrapping.
 |---|---|
 | `n` | Days to go back; may be negative. |
 
-**Returns** &nbsp; The resulting Weekday.
+**Returns** &nbsp; The resulting Weekday..
 
 ### name
 
@@ -65,7 +65,7 @@ Weekday.name()
 
 The English name of a weekday.
 
-**Returns** &nbsp; The full name, e.g. "Friday".
+**Returns** &nbsp; The full name, e.g. "Friday"..
 
 ### plus
 
@@ -79,7 +79,7 @@ The weekday n days later in the weekly cycle, wrapping.
 |---|---|
 | `n` | Days to advance; may be negative. |
 
-**Returns** &nbsp; The resulting Weekday.
+**Returns** &nbsp; The resulting Weekday..
 
 ### to_int
 
@@ -89,7 +89,7 @@ Weekday.to_int()
 
 Numeric code for a weekday, 0 = Sunday through 6 = Saturday.
 
-**Returns** &nbsp; Integer code in [0, 6].
+**Returns** &nbsp; Integer code in [0, 6]..
 
 ### to_iso_dow
 
@@ -99,7 +99,9 @@ Weekday.to_iso_dow()
 
 ISO-8601 numbering for this weekday, 1 = Monday through 7 = Sunday. One of three numbering schemes carried by this type: to_int() is 0-based Sunday-first, to_pine_dow() is Pine's 1-based Sunday-first, and this is ISO's 1-based Monday-first. All three live on the enum so a signature never has to say which scheme a bare int is in.
 
-**Returns** &nbsp; ISO weekday in [1, 7].
+**Returns** &nbsp; ISO weekday in [1, 7]..
+
+**See also** &nbsp; [`to_int`](API-Weekday#to_int), [`to_pine_dow`](API-Weekday#to_pine_dow)
 
 ### to_pine_dow
 
@@ -109,7 +111,9 @@ Weekday.to_pine_dow()
 
 This weekday in Pine's own numbering, where Sunday is 1, the scale used by the dayofweek.* constants and returned by the dayofweek built-in. Distinct from to_int(), which is 0-based.
 
-**Returns** &nbsp; An integer in [1, 7] comparable with dayofweek.monday and friends.
+**Returns** &nbsp; An integer in [1, 7] comparable with dayofweek.monday and friends..
+
+**See also** &nbsp; [`to_int`](API-Weekday#to_int)
 
 ## Enums
 

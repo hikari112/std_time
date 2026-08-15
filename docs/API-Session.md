@@ -61,7 +61,9 @@ How many chart bars of a given timeframe this session holds on a date, counting 
 | `on` | The session's start date, as bounds() reads it: only Year, Month and Day are read. |
 | `timeframe_ms` | The bar interval in milliseconds. |
 
-**Returns** &nbsp; The bar count, or na when the session does not run that day. RAISES when timeframe_ms is not positive: a zero-width bar is not a timeframe.
+**Returns** &nbsp; The bar count, or na when the session does not run that day.
+
+**Raises** &nbsp; when timeframe_ms is not positive: a zero-width bar is not a timeframe.
 
 ### bounds
 
@@ -75,7 +77,7 @@ The instants this session occupies on a given start date, or na when it does not
 |---|---|
 | `on` | The session's start date. Only its Year, Month and Day are read: a session's window comes from its own times and zone, so any time of day or offset the record carries is not part of the question. |
 
-**Returns** &nbsp; A half-open Interval of instants, or na when the session does not run.
+**Returns** &nbsp; A half-open Interval of instants, or na when the session does not run..
 
 ### break_bounds
 
@@ -89,7 +91,9 @@ The intraday break inside this session's window on a given start date. The break
 |---|---|
 | `on` | The session's start date, read exactly as bounds() reads it: only Year, Month and Day. |
 
-**Returns** &nbsp; A half-open Interval, or na when the session carries no break, does not run that day, or shuts early enough that the break no longer fits inside the window.
+**Returns** &nbsp; A half-open Interval, or na when the session carries no break, does not run that day, or shuts early enough that the break no longer fits inside the window..
+
+**See also** &nbsp; [`is_open`](API-Session#is_open)
 
 ### crosses_midnight
 
@@ -99,7 +103,7 @@ Session.crosses_midnight()
 
 Whether this session's window crosses local midnight. Derived from the times rather than stored, so it cannot disagree with them.
 
-**Returns** &nbsp; true when the end is at or before the start.
+**Returns** &nbsp; true when the end is at or before the start..
 
 ### is_first_bar
 
@@ -114,7 +118,7 @@ Whether a bar is the first bar of this session. Pass Pine's `time` and `time_clo
 | `bar_open` | The bar's opening time, Unix milliseconds. |
 | `bar_close` | The bar's closing time, Unix milliseconds. |
 
-**Returns** &nbsp; true when the bar contains the session open.
+**Returns** &nbsp; true when the bar contains the session open..
 
 ### is_last_bar
 
@@ -129,7 +133,7 @@ Whether a bar is the last bar of this session, answered on that bar, not one bar
 | `bar_open` | The bar's opening time, Unix milliseconds. |
 | `bar_close` | The bar's closing time, Unix milliseconds. |
 
-**Returns** &nbsp; true when the session's close falls inside this bar.
+**Returns** &nbsp; true when the session's close falls inside this bar..
 
 ### is_open
 
@@ -143,7 +147,7 @@ Whether this session is trading at an instant. An intraday break is not trading,
 |---|---|
 | `unix_ms` | Unix timestamp in milliseconds. |
 
-**Returns** &nbsp; true when inside the session and outside its break.
+**Returns** &nbsp; true when inside the session and outside its break..
 
 ### length_minutes
 
@@ -153,7 +157,7 @@ Session.length_minutes()
 
 The nominal length of this session in minutes, before any half-day adjustment.
 
-**Returns** &nbsp; Minutes from open to close.
+**Returns** &nbsp; Minutes from open to close..
 
 ### progress
 
@@ -167,7 +171,9 @@ How far through this session's envelope an instant sits. Wall-clock, so it runs 
 |---|---|
 | `unix_ms` | Unix timestamp in milliseconds. |
 
-**Returns** &nbsp; A fraction in [0, 1), or na when no window contains the instant.
+**Returns** &nbsp; A fraction in [0, 1), or na when no window contains the instant..
+
+**See also** &nbsp; [`break_bounds`](API-Session#break_bounds)
 
 ### time_to_close
 
@@ -181,7 +187,7 @@ Milliseconds until this session's envelope closes. Measured through an intraday 
 |---|---|
 | `unix_ms` | Unix timestamp in milliseconds. |
 
-**Returns** &nbsp; Milliseconds remaining, or na when no window contains the instant.
+**Returns** &nbsp; Milliseconds remaining, or na when no window contains the instant..
 
 ### time_to_open
 
@@ -196,7 +202,9 @@ Milliseconds until this session's next open, strictly after the given instant. I
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `max_days` | How many days ahead to search. Default 10, enough to clear a holiday weekend. |
 
-**Returns** &nbsp; Milliseconds until the next open, or na when no open falls within max_days.
+**Returns** &nbsp; Milliseconds until the next open, or na when no open falls within max_days..
+
+**See also** &nbsp; [`is_open`](API-Session#is_open), [`next_fomc_after`](API-Functions#next_fomc_after), [`next_trading_day`](API-DateTime#next_trading_day), [`window_after`](API-Session#window_after)
 
 ### to_spec
 
@@ -206,7 +214,9 @@ Session.to_spec()
 
 This session as a TradingView-style string, e.g. "0930-1600:23456", or "0900-1130,1230-1530:23456" when the session breaks for lunch. The format is TradingView's, so it carries exactly what TradingView's carries (the window, the break and the day mask), and not Tz, Cal or EarlyClose. Those are parameters of parse_session rather than fields of the string, so a full round-trip is parse_session(s.to_spec(), s.Tz, s.Name, s.Cal, s.EarlyClose); pass the string alone and you get the defaults, which for a US_REGULAR session means one that trades on Christmas. The string stays narrow so that it can be pasted into, or out of, a Pine session input.
 
-**Returns** &nbsp; The session string.
+**Returns** &nbsp; The session string..
+
+**See also** &nbsp; [`parse_session`](API-Functions#parse_session)
 
 ### window_after
 
@@ -221,7 +231,9 @@ The next window of this session that opens strictly after an instant: the upcomi
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `max_days` | How many start dates ahead to search. Default 10, enough to clear a holiday weekend. |
 
-**Returns** &nbsp; The next upcoming Interval, or na when none opens within max_days; na means only that.
+**Returns** &nbsp; The next upcoming Interval, or na when none opens within max_days; na means only that..
+
+**See also** &nbsp; [`time_to_open`](API-Session#time_to_open), [`window_at`](API-Session#window_at)
 
 ### window_at
 
@@ -235,7 +247,7 @@ The session window containing an instant, if any. Checks the window dated that d
 |---|---|
 | `unix_ms` | Unix timestamp in milliseconds. |
 
-**Returns** &nbsp; The Interval in progress, or na when the session is not running.
+**Returns** &nbsp; The Interval in progress, or na when the session is not running..
 
 ### window_before
 
@@ -250,7 +262,9 @@ The most recent window of this session that has already ended at an instant: the
 | `unix_ms` | Unix timestamp in milliseconds. An instant exactly at a close belongs to the window it closes (the windows are half-open), so that window already counts as completed. |
 | `max_days` | How many start dates back to search. Default 10, enough to clear a holiday weekend. |
 
-**Returns** &nbsp; The completed Interval nearest before the instant, or na when none ends within max_days, the one meaning na carries here.
+**Returns** &nbsp; The completed Interval nearest before the instant, or na when none ends within max_days, the one meaning na carries here..
+
+**See also** &nbsp; [`window_after`](API-Session#window_after), [`window_at`](API-Session#window_at)
 
 ### window_of_bar
 
@@ -265,7 +279,9 @@ The session window a bar touches, which is not the window that contains one of t
 | `bar_open` | The bar's opening time, Unix milliseconds. Pine's `time`. |
 | `bar_close` | The bar's closing time, Unix milliseconds. Pine's `time_close`. |
 
-**Returns** &nbsp; The Interval the bar overlaps, or na when the bar touches no session window.
+**Returns** &nbsp; The Interval the bar overlaps, or na when the bar touches no session window..
+
+**See also** &nbsp; [`is_first_bar`](API-Session#is_first_bar), [`is_last_bar`](API-Session#is_last_bar), [`window_at`](API-Session#window_at)
 
 ### windows_between
 
@@ -280,7 +296,11 @@ Every window of this session that intersects a span, in ascending order. Routed 
 | `from_ms` | Start of the span, Unix milliseconds. Inclusive. |
 | `to_ms` | End of the span, Unix milliseconds. Exclusive: a window beginning exactly at to_ms is not reported, and an empty span intersects nothing. |
 
-**Returns** &nbsp; Array of Intervals, ascending by start, possibly empty. RAISES when to_ms is before from_ms, which is not a span, and when the span covers more than 20000 start dates: the same cap expiries_between draws, stated here because a caller sizing a drawing pool from this array needs the bound that caps it: at most one window per start date over a scan that begins one date early, so never more than 20002 entries.
+**Returns** &nbsp; Array of Intervals, ascending by start, possibly empty.
+
+**Raises** &nbsp; when to_ms is before from_ms, which is not a span, and when the span covers more than 20000 start dates: the same cap expiries_between draws, stated here because a caller sizing a drawing pool from this array needs the bound that caps it: at most one window per start date over a scan that begins one date early, so never more than 20002 entries.
+
+**See also** &nbsp; [`expiries_between`](API-Functions#expiries_between)
 
 ---
 

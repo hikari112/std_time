@@ -58,7 +58,7 @@ Whether a local civil time happened twice, because a fall-back transition repeat
 | `Second` | Second of minute, 0-59. Default 0. |
 | `MS` | Millisecond of second, 0-999. Default 0. |
 
-**Returns** &nbsp; true when the local time is ambiguous.
+**Returns** &nbsp; true when the local time is ambiguous..
 
 ### is_gap
 
@@ -78,7 +78,7 @@ Whether a local civil time never happened, because a spring-forward transition s
 | `Second` | Second of minute, 0-59. Default 0. |
 | `MS` | Millisecond of second, 0-999. Default 0. |
 
-**Returns** &nbsp; true when the local time does not exist.
+**Returns** &nbsp; true when the local time does not exist..
 
 ### rule
 
@@ -92,7 +92,9 @@ The daylight-saving rule in force for a zone in a given year. Rules change by le
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; The DstRule; one with ShiftHours zero when the zone does not observe daylight saving. RAISES on a Zone the switch does not handle, a library bug. A no_dst_rule() seed would instead claim that an unhandled zone observes no daylight saving.
+**Returns** &nbsp; The DstRule; one with ShiftHours zero when the zone does not observe daylight saving.
+
+**Raises** &nbsp; on a Zone the switch does not handle, a library bug. A no_dst_rule() seed would instead claim that an unhandled zone observes no daylight saving.
 
 ### rules_from
 
@@ -102,7 +104,9 @@ Zone.rules_from()
 
 The first year from which a zone's rules are modelled exactly. Before it, results are the oldest rule extrapolated backward and should not be trusted.
 
-**Returns** &nbsp; Calendar year. RAISES on a Zone the switch does not handle, a library bug. A 1970 seed would instead assert exactness for a zone nobody has checked.
+**Returns** &nbsp; Calendar year.
+
+**Raises** &nbsp; on a Zone the switch does not handle, a library bug. A 1970 seed would instead assert exactness for a zone nobody has checked.
 
 ### std_offset
 
@@ -112,7 +116,9 @@ Zone.std_offset()
 
 The standard, i.e. winter, offset of a zone in hours.
 
-**Returns** &nbsp; Offset from UTC in hours, ignoring daylight saving. RAISES on a Zone the switch does not handle, a library bug rather than a caller one. The switch is total so a new member cannot silently read as UTC.
+**Returns** &nbsp; Offset from UTC in hours, ignoring daylight saving.
+
+**Raises** &nbsp; on a Zone the switch does not handle, a library bug rather than a caller one. The switch is total so a new member cannot silently read as UTC.
 
 ### to_iana
 
@@ -122,7 +128,11 @@ Zone.to_iana()
 
 The IANA identifier for a zone, e.g. "America/New_York". This is the bridge to the built-ins: hand it to timestamp(), str.format_time() or any other Pine function that wants a timezone string. Written out rather than read off the enum's string value so that renaming a label can never silently change output.
 
-**Returns** &nbsp; The IANA identifier. RAISES on a Zone the switch does not handle, a library bug. A silent fallback would hand a wrong timezone string on to timestamp() and str.format_time().
+**Returns** &nbsp; The IANA identifier.
+
+**Raises** &nbsp; on a Zone the switch does not handle, a library bug. A silent fallback would hand a wrong timezone string on to timestamp() and str.format_time().
+
+**See also** &nbsp; [`format_time`](API-Functions#format_time)
 
 ### to_unix
 
@@ -143,7 +153,9 @@ Convert a local civil time in this zone to an instant, resolving gaps and overla
 | `MS` | Millisecond of second, 0-999. Default 0. |
 | `res` | How to resolve a gap or an overlap. Default COMPATIBLE, matching java.time and Temporal. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when res is REJECT and the local time is impossible or ambiguous.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when res is REJECT and the local time is impossible or ambiguous..
+
+**See also** &nbsp; [`unix_to_date_zone`](API-Functions#unix_to_date_zone)
 
 ## Enums
 

@@ -140,7 +140,9 @@ Roll a date onto a trading day using an ISDA business-day convention. The modifi
 | `conv` | The convention. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on the adjusted date: midnight, not this receiver's time of day, because a business-day roll is a question about the day. RAISES if the 30-day walk finds no trading day; the shipped calendars cannot produce that, so hitting it means the calendar data is broken.
+**Returns** &nbsp; A DateTime at midnight on the adjusted date: midnight, not this receiver's time of day, because a business-day roll is a question about the day.
+
+**Raises** &nbsp; if the 30-day walk finds no trading day; the shipped calendars cannot produce that, so hitting it means the calendar data is broken.
 
 ### clamp_to
 
@@ -155,7 +157,7 @@ This instant confined to a range: lo when earlier than lo, hi when later than hi
 | `lo` | Lower bound. |
 | `hi` | Upper bound. |
 
-**Returns** &nbsp; The clamped DateTime.
+**Returns** &nbsp; The clamped DateTime..
 
 ### closed_for_holiday
 
@@ -169,7 +171,9 @@ Whether an exchange is shut for a holiday, as a three-valued answer that says so
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; YES, NO, or UNKNOWN when the year lies outside calendar_from to calendar_through. UNKNOWN is a value and not na: test it against the enum or with is_yes(), never with na().
+**Returns** &nbsp; YES, NO, or UNKNOWN when the year lies outside calendar_from to calendar_through. UNKNOWN is a value and not na: test it against the enum or with is_yes(), never with na()..
+
+**See also** &nbsp; [`calendar_from`](API-Exchange#calendar_from), [`calendar_through`](API-Exchange#calendar_through), [`fomc_decision_day`](API-DateTime#fomc_decision_day), [`is_holiday`](API-DateTime#is_holiday), [`is_yes`](API-Enums#is_yes)
 
 ### compare
 
@@ -183,7 +187,7 @@ Compare two date-times as instants, so differing offsets compare correctly.
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; -1 when this is earlier, 0 when they are the same instant, 1 when this is later.
+**Returns** &nbsp; -1 when this is earlier, 0 when they are the same instant, 1 when this is later..
 
 ### day_of_year
 
@@ -193,7 +197,7 @@ DateTime.day_of_year()
 
 Day of the year, 1 for 1 January.
 
-**Returns** &nbsp; Ordinal day in [1, 366].
+**Returns** &nbsp; Ordinal day in [1, 366]..
 
 ### days_between
 
@@ -207,7 +211,7 @@ Whole calendar days from this date to another, ignoring time of day.
 |---|---|
 | `other` | The ending DateTime. |
 
-**Returns** &nbsp; Signed day count; negative when other is earlier.
+**Returns** &nbsp; Signed day count; negative when other is earlier..
 
 ### earlier
 
@@ -221,7 +225,7 @@ The earlier of two date-times, as instants.
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; Whichever is earlier; this when they are equal.
+**Returns** &nbsp; Whichever is earlier; this when they are equal..
 
 ### end_of
 
@@ -236,7 +240,9 @@ The last instant of the unit containing this date-time, i.e. one millisecond bef
 | `unit` | The unit. |
 | `week_start` | Which day a week begins on, used only for TimeUnit.WEEK. Default MONDAY. |
 
-**Returns** &nbsp; A new DateTime at the end of the unit, in the same offset the receiver carried; see start_of for what that means across a daylight-saving transition.
+**Returns** &nbsp; A new DateTime at the end of the unit, in the same offset the receiver carried; see start_of for what that means across a daylight-saving transition..
+
+**See also** &nbsp; [`start_of`](API-DateTime#start_of)
 
 ### equals
 
@@ -250,7 +256,7 @@ Whether two date-times denote the same civil fields and the same offset. Distinc
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; true when every field matches.
+**Returns** &nbsp; true when every field matches..
 
 ### fomc_day
 
@@ -260,7 +266,9 @@ DateTime.fomc_day()
 
 Whether a date falls on either day of a scheduled FOMC meeting. No is_ prefix, for the same reason as fomc_decision_day: the answer is a Known, not a bool.
 
-**Returns** &nbsp; YES, NO, or UNKNOWN when the date lies outside the published window. UNKNOWN is not a no.
+**Returns** &nbsp; YES, NO, or UNKNOWN when the date lies outside the published window. UNKNOWN is not a no..
+
+**See also** &nbsp; [`fomc_decision_day`](API-DateTime#fomc_decision_day)
 
 ### fomc_decision_day
 
@@ -270,7 +278,7 @@ DateTime.fomc_decision_day()
 
 Whether a date is the second day of an FOMC meeting, when the statement is released. No is_ prefix, because it does not return a bool: every other is_ name here promises one, and `if d.is_fomc_decision_day()` would look as though it should compile when it cannot.
 
-**Returns** &nbsp; YES, NO, or UNKNOWN when the date lies outside the published window. UNKNOWN is not a no.
+**Returns** &nbsp; YES, NO, or UNKNOWN when the date lies outside the published window. UNKNOWN is not a no..
 
 ### format
 
@@ -284,7 +292,11 @@ Format this date-time with a pattern. The pattern letters are str.format_time's,
 |---|---|
 | `pattern` | The format pattern, e.g. "yyyy-MM-dd HH:mm:ss". |
 
-**Returns** &nbsp; The formatted string. Characters outside the pattern language pass through as literals (that is what keeps the T in "yyyy-MM-ddTHH:mm:ss"), with one exception: the reserved letters L B F W O p x g n N c q raise, because they are real DateTimeFormatter fields this library does not implement, and printing one back as text would look like an answer. Single-quote any of them you want literally. RAISES on an unterminated quote too.
+**Returns** &nbsp; The formatted string. Characters outside the pattern language pass through as literals (that is what keeps the T in "yyyy-MM-ddTHH:mm:ss"), with one exception: the reserved letters L B F W O p x g n N c q raise, because they are real DateTimeFormatter fields this library does not implement, and printing one back as text would look like an answer. Single-quote any of them you want literally.
+
+**Raises** &nbsp; on an unterminated quote too.
+
+**See also** &nbsp; [`format_time`](API-Functions#format_time)
 
 ### holiday_name
 
@@ -298,7 +310,9 @@ The name of the holiday or closure shutting an exchange on a date. This is the c
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; The holiday's name, or na when the exchange holds a session that day and there is nothing to name.
+**Returns** &nbsp; The holiday's name, or na when the exchange holds a session that day and there is nothing to name..
+
+**See also** &nbsp; [`is_holiday`](API-DateTime#is_holiday)
 
 ### is_after
 
@@ -312,7 +326,7 @@ Whether this date-time is strictly later than another, as instants.
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; true when this is later.
+**Returns** &nbsp; true when this is later..
 
 ### is_before
 
@@ -326,7 +340,7 @@ Whether this date-time is strictly earlier than another, as instants.
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; true when this is earlier.
+**Returns** &nbsp; true when this is earlier..
 
 ### is_between
 
@@ -341,7 +355,7 @@ Whether this instant falls in the half-open span [lo, hi). Half-open so that adj
 | `lo` | Inclusive lower bound. |
 | `hi` | Exclusive upper bound. |
 
-**Returns** &nbsp; true when lo <= this < hi, as instants.
+**Returns** &nbsp; true when lo <= this < hi, as instants..
 
 ### is_early_close
 
@@ -355,7 +369,7 @@ Whether an exchange closes early on a date. Returns false on a day the exchange 
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; true when the session ends before its usual time.
+**Returns** &nbsp; true when the session ends before its usual time..
 
 ### is_expiry_day
 
@@ -369,7 +383,11 @@ Whether a date is an expiry of a given cycle. DAILY answers is_trading_day on th
 |---|---|
 | `kind` | The expiry cycle to test against. Default MONTHLY, the classic third-Friday cycle. |
 
-**Returns** &nbsp; true when the date is an expiry of that cycle. RAISES on an ExpiryKind the switch does not handle, a library bug, and a loud one by design, because a new cycle silently answering false would read as "never expires".
+**Returns** &nbsp; true when the date is an expiry of that cycle.
+
+**Raises** &nbsp; on an ExpiryKind the switch does not handle, a library bug, and a loud one by design, because a new cycle silently answering false would read as "never expires".
+
+**See also** &nbsp; [`is_trading_day`](API-DateTime#is_trading_day), [`monthly_expiry_day`](API-Functions#monthly_expiry_day), [`vix_settlement_day`](API-Functions#vix_settlement_day), [`weekly_expiry`](API-DateTime#weekly_expiry)
 
 ### is_holiday
 
@@ -383,7 +401,9 @@ Whether an exchange is closed for a scheduled holiday. Defined as holiday_name b
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; true when the exchange holds no session that day.
+**Returns** &nbsp; true when the exchange holds no session that day..
+
+**See also** &nbsp; [`holiday_name`](API-DateTime#holiday_name), [`is_trading_day`](API-DateTime#is_trading_day)
 
 ### is_leap
 
@@ -393,7 +413,7 @@ DateTime.is_leap()
 
 Whether this date's year is a leap year.
 
-**Returns** &nbsp; true in a leap year.
+**Returns** &nbsp; true in a leap year..
 
 ### is_month_end
 
@@ -403,7 +423,7 @@ DateTime.is_month_end()
 
 Whether this is the last day of its month.
 
-**Returns** &nbsp; true on the final day.
+**Returns** &nbsp; true on the final day..
 
 ### is_month_start
 
@@ -413,7 +433,7 @@ DateTime.is_month_start()
 
 Whether this is the first day of its month.
 
-**Returns** &nbsp; true on the 1st.
+**Returns** &nbsp; true on the 1st..
 
 ### is_quarter_end
 
@@ -423,7 +443,7 @@ DateTime.is_quarter_end()
 
 Whether this is the last day of its quarter.
 
-**Returns** &nbsp; true on the final day of March, June, September or December.
+**Returns** &nbsp; true on the final day of March, June, September or December..
 
 ### is_quarter_start
 
@@ -433,7 +453,7 @@ DateTime.is_quarter_start()
 
 Whether this is the first day of its quarter.
 
-**Returns** &nbsp; true on 1 January, 1 April, 1 July or 1 October.
+**Returns** &nbsp; true on 1 January, 1 April, 1 July or 1 October..
 
 ### is_trading_day
 
@@ -447,7 +467,7 @@ Whether an exchange holds a regular session on a date: not a weekend, not a sche
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; true when the exchange is open, whether or not it closes early.
+**Returns** &nbsp; true when the exchange is open, whether or not it closes early..
 
 ### is_triple_witching
 
@@ -457,7 +477,9 @@ DateTime.is_triple_witching()
 
 Whether a date is a quarterly expiry, when index futures, index options and equity options all expire together. The QUARTERLY arm of is_expiry_day under its traditional name; one rule, two spellings, and this one routes through the other so they cannot drift apart.
 
-**Returns** &nbsp; true on a March, June, September or December expiry.
+**Returns** &nbsp; true on a March, June, September or December expiry..
+
+**See also** &nbsp; [`is_expiry_day`](API-DateTime#is_expiry_day)
 
 ### is_weekday
 
@@ -467,7 +489,7 @@ DateTime.is_weekday()
 
 Whether this date falls Monday to Friday.
 
-**Returns** &nbsp; true on a weekday.
+**Returns** &nbsp; true on a weekday..
 
 ### is_weekend
 
@@ -477,7 +499,9 @@ DateTime.is_weekend()
 
 Whether this date falls on a Saturday or Sunday. Says nothing about whether a market is open; ask is_trading_day for that.
 
-**Returns** &nbsp; true at the weekend.
+**Returns** &nbsp; true at the weekend..
+
+**See also** &nbsp; [`is_trading_day`](API-DateTime#is_trading_day)
 
 ### is_year_end
 
@@ -487,7 +511,7 @@ DateTime.is_year_end()
 
 Whether this is 31 December.
 
-**Returns** &nbsp; true on the last day of the year.
+**Returns** &nbsp; true on the last day of the year..
 
 ### is_year_start
 
@@ -497,7 +521,7 @@ DateTime.is_year_start()
 
 Whether this is 1 January.
 
-**Returns** &nbsp; true on the first day of the year.
+**Returns** &nbsp; true on the first day of the year..
 
 ### iso_week
 
@@ -507,7 +531,9 @@ DateTime.iso_week()
 
 ISO-8601 week number. Week 1 is the week containing the first Thursday of the year, so early January can belong to week 52 or 53 of the previous week-based year. Pair this with iso_week_year, never with the calendar year.
 
-**Returns** &nbsp; ISO week number in [1, 53].
+**Returns** &nbsp; ISO week number in [1, 53]..
+
+**See also** &nbsp; [`iso_week_year`](API-DateTime#iso_week_year)
 
 ### iso_week_year
 
@@ -517,7 +543,7 @@ DateTime.iso_week_year()
 
 ISO-8601 week-based year, which is not always the calendar year: 2027-01-01 belongs to week-year 2026. Getting this wrong is exactly the "YYYY versus yyyy" formatting bug.
 
-**Returns** &nbsp; ISO week-based year.
+**Returns** &nbsp; ISO week-based year..
 
 ### later
 
@@ -531,7 +557,7 @@ The later of two date-times, as instants.
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; Whichever is later; this when they are equal.
+**Returns** &nbsp; Whichever is later; this when they are equal..
 
 ### length_of_month
 
@@ -541,7 +567,7 @@ DateTime.length_of_month()
 
 Number of days in this date's month.
 
-**Returns** &nbsp; 28, 29, 30 or 31.
+**Returns** &nbsp; 28, 29, 30 or 31..
 
 ### length_of_year
 
@@ -551,7 +577,7 @@ DateTime.length_of_year()
 
 Number of days in this date's year.
 
-**Returns** &nbsp; 365 or 366.
+**Returns** &nbsp; 365 or 366..
 
 ### minus_days
 
@@ -565,7 +591,9 @@ Subtract whole calendar days, preserving wall-clock time of day. Delegates to pl
 |---|---|
 | `n` | Days to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime.
+**Returns** &nbsp; A new DateTime..
+
+**See also** &nbsp; [`plus_days`](API-DateTime#plus_days)
 
 ### minus_hours
 
@@ -579,7 +607,9 @@ Subtract hours from the instant. Delegates to plus_hours with -n.
 |---|---|
 | `n` | Hours to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
+
+**See also** &nbsp; [`plus_hours`](API-DateTime#plus_hours)
 
 ### minus_minutes
 
@@ -593,7 +623,9 @@ Subtract minutes from the instant. Delegates to plus_minutes with -n.
 |---|---|
 | `n` | Minutes to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
+
+**See also** &nbsp; [`plus_minutes`](API-DateTime#plus_minutes)
 
 ### minus_months
 
@@ -608,7 +640,9 @@ Subtract whole calendar months, with plus_months' clamping rule: 31 March minus 
 | `n` | Months to subtract; a negative n adds. |
 | `ovf` | What to do when the day does not exist in the target month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
+
+**See also** &nbsp; [`plus_months`](API-DateTime#plus_months)
 
 ### minus_ms
 
@@ -622,7 +656,9 @@ Subtract milliseconds from the instant. Delegates to plus_ms with -n.
 |---|---|
 | `n` | Milliseconds to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
+
+**See also** &nbsp; [`plus_ms`](API-DateTime#plus_ms)
 
 ### minus_period
 
@@ -637,7 +673,7 @@ Subtract a Period from a DateTime. Lives here rather than beside its eight minus
 | `p` | The Period to subtract. |
 | `ovf` | What to do when the month step lands on a day that does not exist. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
 
 ### minus_seconds
 
@@ -651,7 +687,9 @@ Subtract seconds from the instant. Delegates to plus_seconds with -n.
 |---|---|
 | `n` | Seconds to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
+
+**See also** &nbsp; [`plus_seconds`](API-DateTime#plus_seconds)
 
 ### minus_trading_days
 
@@ -666,7 +704,11 @@ Move backward a number of trading days. Delegates to plus_trading_days with -n, 
 | `n` | Trading days to move back; a negative n moves forward. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on the resulting trading day. RAISES exactly as plus_trading_days does when the bounded walk cannot resolve.
+**Returns** &nbsp; A DateTime at midnight on the resulting trading day.
+
+**Raises** &nbsp; exactly as plus_trading_days does when the bounded walk cannot resolve.
+
+**See also** &nbsp; [`plus_trading_days`](API-DateTime#plus_trading_days)
 
 ### minus_weeks
 
@@ -680,7 +722,9 @@ Subtract whole calendar weeks, preserving wall-clock time of day. Delegates to p
 |---|---|
 | `n` | Weeks to subtract; a negative n adds. |
 
-**Returns** &nbsp; A new DateTime.
+**Returns** &nbsp; A new DateTime..
+
+**See also** &nbsp; [`plus_weeks`](API-DateTime#plus_weeks)
 
 ### minus_years
 
@@ -695,7 +739,9 @@ Subtract whole calendar years, with the same clamping rule: 29 February minus on
 | `n` | Years to subtract; a negative n adds. |
 | `ovf` | What to do when the day does not exist in the target month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
+
+**See also** &nbsp; [`plus_years`](API-DateTime#plus_years)
 
 ### months_between
 
@@ -709,7 +755,9 @@ Whole calendar months from this date to another, in the sense of java.time's Chr
 |---|---|
 | `other` | The ending DateTime. |
 
-**Returns** &nbsp; Signed whole-month count.
+**Returns** &nbsp; Signed whole-month count..
+
+**See also** &nbsp; [`plus_months`](API-DateTime#plus_months)
 
 ### next_or_same_weekday
 
@@ -723,7 +771,7 @@ This date when it already falls on the given weekday, otherwise the nearest one 
 |---|---|
 | `dow` | The weekday wanted. |
 
-**Returns** &nbsp; A new DateTime, 0 to 6 days forward, keeping the time of day.
+**Returns** &nbsp; A new DateTime, 0 to 6 days forward, keeping the time of day..
 
 ### next_trading_day
 
@@ -737,7 +785,11 @@ The next trading day strictly after a date, skipping weekends and scheduled holi
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on that trading day. RAISES exactly as plus_trading_days does; this is its one-step walk.
+**Returns** &nbsp; A DateTime at midnight on that trading day.
+
+**Raises** &nbsp; exactly as plus_trading_days does; this is its one-step walk.
+
+**See also** &nbsp; [`is_trading_day`](API-DateTime#is_trading_day), [`plus_trading_days`](API-DateTime#plus_trading_days), [`prev_trading_day`](API-DateTime#prev_trading_day)
 
 ### next_weekday
 
@@ -751,7 +803,7 @@ The nearest date strictly after this one that falls on the given weekday, java.t
 |---|---|
 | `dow` | The weekday wanted. |
 
-**Returns** &nbsp; A new DateTime, 1 to 7 days forward, keeping the time of day.
+**Returns** &nbsp; A new DateTime, 1 to 7 days forward, keeping the time of day..
 
 ### normalized
 
@@ -761,7 +813,7 @@ DateTime.normalized()
 
 A copy of this DateTime with the day clamped into the length of its month. Repairs a record whose fields were assigned directly, which is the only way this library can hold a date its constructor would have refused. Routes through the same repair as the withers.
 
-**Returns** &nbsp; A new, self-consistent DateTime, or na when a field other than the day is out of range: a day past the end of its month clamps, but a Month of 13 is a typo, not an overflow, and is refused.
+**Returns** &nbsp; A new, self-consistent DateTime, or na when a field other than the day is out of range: a day past the end of its month clamps, but a Month of 13 is a typo, not an overflow, and is refused..
 
 ### period_between
 
@@ -775,7 +827,9 @@ The Period between two dates, following java.time's Period.between: whole months
 |---|---|
 | `other` | The ending DateTime. |
 
-**Returns** &nbsp; A Period p for which this.plus_period(p) always lands on other's date.
+**Returns** &nbsp; A Period p for which this.plus_period(p) always lands on other's date..
+
+**See also** &nbsp; [`plus_period`](API-DateTime#plus_period)
 
 ### plus_days
 
@@ -789,7 +843,7 @@ Add whole calendar days, preserving wall-clock time of day.
 |---|---|
 | `n` | Days to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime.
+**Returns** &nbsp; A new DateTime..
 
 ### plus_hours
 
@@ -803,7 +857,7 @@ Add hours to the instant.
 |---|---|
 | `n` | Hours to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
 
 ### plus_minutes
 
@@ -817,7 +871,7 @@ Add minutes to the instant.
 |---|---|
 | `n` | Minutes to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
 
 ### plus_months
 
@@ -832,7 +886,9 @@ Add whole calendar months, following java.time: the day of month is clamped to t
 | `n` | Months to add; may be negative. |
 | `ovf` | What to do when the day does not exist in the target month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
+
+**See also** &nbsp; [`plus_days`](API-DateTime#plus_days)
 
 ### plus_ms
 
@@ -846,7 +902,7 @@ Add milliseconds to the instant.
 |---|---|
 | `n` | Milliseconds to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
 
 ### plus_period
 
@@ -861,7 +917,7 @@ Add a Period. Months are applied before days, matching java.time; the two orders
 | `p` | The Period to add. |
 | `ovf` | What to do when the month step lands on a day that does not exist. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
 
 ### plus_seconds
 
@@ -875,7 +931,7 @@ Add seconds to the instant.
 |---|---|
 | `n` | Seconds to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime in the same offset.
+**Returns** &nbsp; A new DateTime in the same offset..
 
 ### plus_trading_days
 
@@ -890,7 +946,9 @@ Move forward or backward a number of trading days, skipping weekends and holiday
 | `n` | Trading days to move; negative moves backward. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on the resulting trading day. RAISES when the bounded walk of |n| * 2 + 30 calendar days does not contain |n| trading days. No shipped calendar can do that, so reaching the error means the calendar data is wrong.
+**Returns** &nbsp; A DateTime at midnight on the resulting trading day.
+
+**Raises** &nbsp; when the bounded walk of |n| * 2 + 30 calendar days does not contain |n| trading days. No shipped calendar can do that, so reaching the error means the calendar data is wrong.
 
 ### plus_weeks
 
@@ -904,7 +962,7 @@ Add whole calendar weeks, preserving wall-clock time of day.
 |---|---|
 | `n` | Weeks to add; may be negative. |
 
-**Returns** &nbsp; A new DateTime.
+**Returns** &nbsp; A new DateTime..
 
 ### plus_years
 
@@ -919,7 +977,9 @@ Add whole calendar years, with the same clamping rule as plus_months: 29 Februar
 | `n` | Years to add; may be negative. |
 | `ovf` | What to do when the day does not exist in the target month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist.
+**Returns** &nbsp; A new DateTime, or na when ovf is REJECT and the day does not exist..
+
+**See also** &nbsp; [`plus_months`](API-DateTime#plus_months)
 
 ### prev_trading_day
 
@@ -933,7 +993,11 @@ The previous trading day strictly before a date.
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on that trading day. RAISES exactly as plus_trading_days does; this is its one-step walk.
+**Returns** &nbsp; A DateTime at midnight on that trading day.
+
+**Raises** &nbsp; exactly as plus_trading_days does; this is its one-step walk.
+
+**See also** &nbsp; [`plus_trading_days`](API-DateTime#plus_trading_days)
 
 ### previous_weekday
 
@@ -947,7 +1011,7 @@ The nearest date strictly before this one that falls on the given weekday, java.
 |---|---|
 | `dow` | The weekday wanted. |
 
-**Returns** &nbsp; A new DateTime, 1 to 7 days back, keeping the time of day.
+**Returns** &nbsp; A new DateTime, 1 to 7 days back, keeping the time of day..
 
 ### round_to
 
@@ -963,7 +1027,9 @@ Round this date-time to a unit boundary. Modes are applied to elapsed time since
 | `mode` | The rounding mode. Default FLOOR. |
 | `week_start` | Which day a week begins on, used only for TimeUnit.WEEK. Default MONDAY, matching start_of and end_of: without it a Sunday-week user could floor and ceil to a Sunday week but not round to one. |
 
-**Returns** &nbsp; A new DateTime on a unit boundary, in the same offset the receiver carried; see start_of for what that means across a daylight-saving transition.
+**Returns** &nbsp; A new DateTime on a unit boundary, in the same offset the receiver carried; see start_of for what that means across a daylight-saving transition..
+
+**See also** &nbsp; [`start_of`](API-DateTime#start_of)
 
 ### same_instant
 
@@ -977,7 +1043,7 @@ Whether two date-times are the same instant, regardless of the offset each is ex
 |---|---|
 | `other` | The second DateTime. |
 
-**Returns** &nbsp; true when they denote the same moment.
+**Returns** &nbsp; true when they denote the same moment..
 
 ### session_close
 
@@ -991,7 +1057,7 @@ The instant an exchange's session closes on a date, accounting for early closes.
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when the exchange is closed that day.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when the exchange is closed that day..
 
 ### session_open
 
@@ -1005,7 +1071,7 @@ The instant an exchange's session opens on a date. For CME this is 17:00 Chicago
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when the exchange is closed that day.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when the exchange is closed that day..
 
 ### start_of
 
@@ -1020,7 +1086,9 @@ The first instant of the unit containing this date-time.
 | `unit` | The unit to truncate to. |
 | `week_start` | Which day a week begins on, used only for TimeUnit.WEEK. Default MONDAY, the ISO-8601 convention; pass SUNDAY for the common US one. |
 
-**Returns** &nbsp; A new DateTime at the start of the unit, in the same offset the receiver carried. For a fixed-offset record that is the only reading available, but it means start_of(DAY) is not necessarily local midnight in a zone that changed offset that day. Use today() for that, or re-resolve through Zone.to_unix.
+**Returns** &nbsp; A new DateTime at the start of the unit, in the same offset the receiver carried. For a fixed-offset record that is the only reading available, but it means start_of(DAY) is not necessarily local midnight in a zone that changed offset that day. Use today() for that, or re-resolve through Zone.to_unix..
+
+**See also** &nbsp; [`to_unix`](API-Zone#to_unix)
 
 ### to_iso
 
@@ -1030,7 +1098,9 @@ DateTime.to_iso()
 
 Format a DateTime as a full ISO-8601 date-time with its offset designator: the form that survives a round trip, so parse_iso(d.to_iso()) gives back d. The short name belongs to the offset-carrying form: it keeps the offset the type carries, and it matches Interval's to_iso, which also emits offsets. The offset-less spelling is to_iso_local.
 
-**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS+HH:MM", or ending in "Z" at UTC.
+**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS+HH:MM", or ending in "Z" at UTC..
+
+**See also** &nbsp; [`parse_iso`](API-Functions#parse_iso), [`to_iso_local`](API-DateTime#to_iso_local)
 
 ### to_iso_date
 
@@ -1040,7 +1110,7 @@ DateTime.to_iso_date()
 
 Format a DateTime as an ISO-8601 date only.
 
-**Returns** &nbsp; A string of the form "YYYY-MM-DD".
+**Returns** &nbsp; A string of the form "YYYY-MM-DD"..
 
 ### to_iso_local
 
@@ -1050,7 +1120,9 @@ DateTime.to_iso_local()
 
 Format a DateTime as an ISO-8601 date-time string without the offset designator, i.e. as a local wall-clock reading. Lossy on purpose: two different instants print identically, so this is for a human reading a label, never for anything that will be parsed back. to_iso is the round-tripping form.
 
-**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS".
+**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS"..
+
+**See also** &nbsp; [`to_iso`](API-Interval#to_iso)
 
 ### to_iso_ordinal_date
 
@@ -1060,7 +1132,7 @@ DateTime.to_iso_ordinal_date()
 
 Format a DateTime as an ISO-8601 ordinal date.
 
-**Returns** &nbsp; A string of the form "YYYY-DDD".
+**Returns** &nbsp; A string of the form "YYYY-DDD"..
 
 ### to_iso_time
 
@@ -1070,7 +1142,7 @@ DateTime.to_iso_time()
 
 Format a DateTime as an ISO-8601 time only.
 
-**Returns** &nbsp; A string of the form "HH:MM:SS".
+**Returns** &nbsp; A string of the form "HH:MM:SS"..
 
 ### to_iso_week_date
 
@@ -1080,7 +1152,7 @@ DateTime.to_iso_week_date()
 
 Format a DateTime as an ISO-8601 week date. Note the year shown is the week-based year, which for early January can differ from the calendar year.
 
-**Returns** &nbsp; A string of the form "YYYY-Www-D".
+**Returns** &nbsp; A string of the form "YYYY-Www-D"..
 
 ### to_unix
 
@@ -1090,7 +1162,7 @@ DateTime.to_unix()
 
 The Unix timestamp this DateTime denotes, using the offset it carries.
 
-**Returns** &nbsp; Unix timestamp in milliseconds.
+**Returns** &nbsp; Unix timestamp in milliseconds..
 
 ### to_zone_same_instant
 
@@ -1104,7 +1176,7 @@ The same moment expressed in another zone. 12:00 in New York becomes 17:00 in Lo
 |---|---|
 | `z` | The target zone. |
 
-**Returns** &nbsp; A new DateTime with the target zone's offset in force.
+**Returns** &nbsp; A new DateTime with the target zone's offset in force..
 
 ### to_zone_same_local
 
@@ -1119,7 +1191,7 @@ The same wall clock reinterpreted in another zone, which denotes a different mom
 | `z` | The target zone. |
 | `res` | How to resolve a local time the target zone skipped or repeated. Default COMPATIBLE. |
 
-**Returns** &nbsp; A new DateTime, or na when res is REJECT and the local time is impossible or ambiguous.
+**Returns** &nbsp; A new DateTime, or na when res is REJECT and the local time is impossible or ambiguous..
 
 ### trading_day_of_month
 
@@ -1133,7 +1205,9 @@ The ordinal of a date among its month's trading days: 1 on the month's first tra
 |---|---|
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; Ordinal in [1, trading_days_in_month(...)], or na when the date is not itself a trading day: a Saturday holds no position in a sequence it is not part of, and 0 would be an in-band stand-in for "none", which the header's error rules forbid.
+**Returns** &nbsp; Ordinal in [1, trading_days_in_month(...)], or na when the date is not itself a trading day: a Saturday holds no position in a sequence it is not part of, and 0 would be an in-band stand-in for "none", which the header's error rules forbid..
+
+**See also** &nbsp; [`trading_days_in_month`](API-Functions#trading_days_in_month)
 
 ### trading_days_between
 
@@ -1148,7 +1222,7 @@ Count of trading days between two dates. The span counted is always half-open on
 | `other` | The ending DateTime. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; Signed count; negative when other is earlier.
+**Returns** &nbsp; Signed count; negative when other is earlier..
 
 ### until
 
@@ -1163,7 +1237,9 @@ The whole number of units from this date-time to another, the generic form of da
 | `other` | The ending DateTime. |
 | `unit` | The unit to count in. |
 
-**Returns** &nbsp; Signed whole count; partial units do not count.
+**Returns** &nbsp; Signed whole count; partial units do not count..
+
+**See also** &nbsp; [`days_between`](API-DateTime#days_between), [`months_between`](API-DateTime#months_between)
 
 ### week_of_month
 
@@ -1177,7 +1253,7 @@ Which week-row of its month this date falls in, where week 1 is the possibly-par
 |---|---|
 | `week_start` | Which day the week begins on. Default MONDAY, the ISO convention. |
 
-**Returns** &nbsp; Week of month in [1, 6].
+**Returns** &nbsp; Week of month in [1, 6]..
 
 ### weekday
 
@@ -1187,7 +1263,7 @@ DateTime.weekday()
 
 The weekday of this date, computed from the calendar on every call. There is no cached weekday field to go stale, so the answer is correct however the record was built.
 
-**Returns** &nbsp; The Weekday.
+**Returns** &nbsp; The Weekday..
 
 ### weekday_ordinal_in_month
 
@@ -1197,7 +1273,9 @@ DateTime.weekday_ordinal_in_month()
 
 Which occurrence of its own weekday this date is within its month: the 3rd Friday answers 3. The inverse of nth_weekday_of_month, and unlike week_of_month it needs no week-start convention: it counts only days sharing this date's weekday, so where a week begins cannot matter.
 
-**Returns** &nbsp; Ordinal in [1, 5]. Inverse in the exact sense that nth_weekday_of_month(Year, Month, this.weekday(), the answer) lands back on this day.
+**Returns** &nbsp; Ordinal in [1, 5]. Inverse in the exact sense that nth_weekday_of_month(Year, Month, this.weekday(), the answer) lands back on this day..
+
+**See also** &nbsp; [`nth_weekday_of_month`](API-Functions#nth_weekday_of_month), [`week_of_month`](API-DateTime#week_of_month)
 
 ### weekdays_between
 
@@ -1211,7 +1289,9 @@ Count of weekdays (Monday through Friday) between two dates, closed form: no loo
 |---|---|
 | `other` | The ending DateTime. |
 
-**Returns** &nbsp; Signed count; negative when other is earlier.
+**Returns** &nbsp; Signed count; negative when other is earlier..
+
+**See also** &nbsp; [`trading_days_between`](API-DateTime#trading_days_between)
 
 ### weekly_expiry
 
@@ -1221,7 +1301,7 @@ DateTime.weekly_expiry()
 
 The expiry of the weekly contract covering a date: that week's Friday, rolled back to the previous trading day when the Friday does not trade.
 
-**Returns** &nbsp; A DateTime at midnight on the weekly expiry date.
+**Returns** &nbsp; A DateTime at midnight on the weekly expiry date..
 
 ### with_date
 
@@ -1238,7 +1318,9 @@ A copy with the date replaced and the time of day kept.
 | `Day` | The new day of month, 1 or greater. |
 | `ovf` | What to do when the day is past the end of the target month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na. As in with_day, Overflow decides only what happens past the end of the month; a Month outside 1-12 or a Day below 1 is na whichever Overflow you pass.
+**Returns** &nbsp; A new DateTime, or na. As in with_day, Overflow decides only what happens past the end of the month; a Month outside 1-12 or a Day below 1 is na whichever Overflow you pass..
+
+**See also** &nbsp; [`with_day`](API-DateTime#with_day)
 
 ### with_day
 
@@ -1253,7 +1335,7 @@ A copy with the day of month replaced.
 | `Day` | The new day of month, 1 or greater. |
 | `ovf` | What to do when the day is past the end of this month. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na. Overflow governs one direction only: a day past the end of the month clamps under CONSTRAIN and is na under REJECT, but a day below 1 is na under both, because it is not an overflow at all: nothing sensible to clamp it to.
+**Returns** &nbsp; A new DateTime, or na. Overflow governs one direction only: a day past the end of the month clamps under CONSTRAIN and is na under REJECT, but a day below 1 is na under both, because it is not an overflow at all: nothing sensible to clamp it to..
 
 ### with_day_of_year
 
@@ -1267,7 +1349,9 @@ A copy moved to a given ordinal day of the year, keeping the time of day.
 |---|---|
 | `Doy` | Ordinal day, 1-366. |
 
-**Returns** &nbsp; A new DateTime. RAISES when the ordinal does not exist in this year: a 366th day of a common year is a caller bug, not a date the calendar declines to have.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when the ordinal does not exist in this year: a 366th day of a common year is a caller bug, not a date the calendar declines to have.
 
 ### with_hour
 
@@ -1281,7 +1365,9 @@ A copy with the hour replaced.
 |---|---|
 | `Hour` | The new hour, 0-23. |
 
-**Returns** &nbsp; A new DateTime. RAISES when the hour is out of range.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when the hour is out of range.
 
 ### with_minute
 
@@ -1295,7 +1381,9 @@ A copy with the minute replaced.
 |---|---|
 | `Minute` | The new minute, 0-59. |
 
-**Returns** &nbsp; A new DateTime. RAISES when the minute is out of range.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when the minute is out of range.
 
 ### with_month
 
@@ -1310,7 +1398,7 @@ A copy with the month replaced, clamping the day into the new month.
 | `Month` | The new month, 1-12. |
 | `ovf` | What to do when the day does not exist in the target. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na when the month is out of range or the day does not exist under REJECT.
+**Returns** &nbsp; A new DateTime, or na when the month is out of range or the day does not exist under REJECT..
 
 ### with_ms
 
@@ -1324,7 +1412,9 @@ A copy with the millisecond replaced.
 |---|---|
 | `MS` | The new millisecond, 0-999. |
 
-**Returns** &nbsp; A new DateTime. RAISES when it is out of range.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when it is out of range.
 
 ### with_offset
 
@@ -1338,7 +1428,9 @@ A copy expressed in a different fixed offset, keeping the civil fields and there
 |---|---|
 | `utc` | The new offset from UTC in hours. |
 
-**Returns** &nbsp; A new DateTime denoting a different moment.
+**Returns** &nbsp; A new DateTime denoting a different moment..
+
+**See also** &nbsp; [`to_zone_same_instant`](API-DateTime#to_zone_same_instant)
 
 ### with_second
 
@@ -1352,7 +1444,9 @@ A copy with the second replaced.
 |---|---|
 | `Second` | The new second, 0-59. |
 
-**Returns** &nbsp; A new DateTime. RAISES when the second is out of range.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when the second is out of range.
 
 ### with_time
 
@@ -1369,7 +1463,9 @@ A copy with the time of day replaced and the date kept.
 | `Second` | The new second, 0-59. Default 0. |
 | `MS` | The new millisecond, 0-999. Default 0. |
 
-**Returns** &nbsp; A new DateTime. RAISES when any component is out of range.
+**Returns** &nbsp; A new DateTime.
+
+**Raises** &nbsp; when any component is out of range.
 
 ### with_weekday
 
@@ -1384,7 +1480,7 @@ A copy moved to a given weekday within the same week, where the week begins on w
 | `dow` | The weekday wanted. |
 | `week_start` | Which day the week begins on. Default MONDAY, the ISO convention. |
 
-**Returns** &nbsp; A new DateTime.
+**Returns** &nbsp; A new DateTime..
 
 ### with_year
 
@@ -1399,7 +1495,7 @@ A copy with the year replaced. The day is clamped, so 29 February in a leap year
 | `Year` | The new calendar year. |
 | `ovf` | What to do when the day does not exist in the target. Default CONSTRAIN. |
 
-**Returns** &nbsp; A new DateTime, or na under REJECT when the day does not exist.
+**Returns** &nbsp; A new DateTime, or na under REJECT when the day does not exist..
 
 ---
 

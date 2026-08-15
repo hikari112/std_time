@@ -97,7 +97,7 @@ Whether a unit boundary in a zone falls between two instants: the "is this a new
 | `z` | The zone the boundary is resolved in. Default UTC. |
 | `week_start` | Which day a week begins on, used only for TimeUnit.WEEK. Default MONDAY. |
 
-**Returns** &nbsp; true when the two instants sit in different units. Equal instants return false, and so does an na on either side: bool cannot hold na, so there is no third answer to give; guard the first bar with nz() or a bar_index test rather than reading false as "no boundary". The repeated hour of an autumn transition is one civil hour and reports no boundary: 01:30 happens twice in London that morning, and both truncate to the same 01:00.
+**Returns** &nbsp; true when the two instants sit in different units. Equal instants return false, and so does an na on either side: bool cannot hold na, so there is no third answer to give; guard the first bar with nz() or a bar_index test rather than reading false as "no boundary". The repeated hour of an autumn transition is one civil hour and reports no boundary: 01:30 happens twice in London that morning, and both truncate to the same 01:00..
 
 ### date_from_day_of_year
 
@@ -112,7 +112,11 @@ Civil date for an ordinal day of the year. Inverse of day_of_year. Takes loose i
 | `Year` | Calendar year. |
 | `Doy` | Ordinal day in [1, 366]. |
 
-**Returns** &nbsp; A DateTime at midnight UTC on that date. RAISES when Doy is outside [1, days_in_year(Year)]; a 366th day of a common year is a caller bug.
+**Returns** &nbsp; A DateTime at midnight UTC on that date.
+
+**Raises** &nbsp; when Doy is outside [1, days_in_year(Year)]; a 366th day of a common year is a caller bug.
+
+**See also** &nbsp; [`day_of_year`](API-DateTime#day_of_year), [`days_in_year`](API-Functions#days_in_year)
 
 ### date_from_iso_week
 
@@ -128,7 +132,11 @@ Civil date for an ISO-8601 week date. Inverse of the iso_week / iso_week_year / 
 | `Week` | ISO week number in [1, 53]. |
 | `dow` | Which day of that week. Default MONDAY, the first day of an ISO week. A Weekday rather than the raw ISO digit, so 0 and 8 are unrepresentable instead of runtime errors. |
 
-**Returns** &nbsp; A DateTime at midnight UTC on that date. RAISES when Week is outside [1, iso_weeks_in_year(WeekYear)]: the bound is that week-year's own length, 52 or 53, not a flat 53.
+**Returns** &nbsp; A DateTime at midnight UTC on that date.
+
+**Raises** &nbsp; when Week is outside [1, iso_weeks_in_year(WeekYear)]: the bound is that week-year's own length, 52 or 53, not a flat 53.
+
+**See also** &nbsp; [`iso_week_year`](API-DateTime#iso_week_year), [`to_iso_dow`](API-Weekday#to_iso_dow)
 
 ### date_to_unix
 
@@ -149,7 +157,11 @@ Convert a civil date-time to a Unix timestamp. Inverse of unix_to_date.
 | `MS` | Millisecond of second, 0-999. Default 0. |
 | `utc` | Offset from UTC in hours that the supplied civil time is expressed in. Default 0. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds. RAISES when Hour is outside [0, 23], Minute or Second outside [0, 59], MS outside [0, 999], or when Month and Day are ones days_from_civil refuses. Like that function it does not check Day against the length of its month, so this converts 31 February rather than rejecting it; new_datetime is the validating way in.
+**Returns** &nbsp; Unix timestamp in milliseconds.
+
+**Raises** &nbsp; when Hour is outside [0, 23], Minute or Second outside [0, 59], MS outside [0, 999], or when Month and Day are ones days_from_civil refuses. Like that function it does not check Day against the length of its month, so this converts 31 February rather than rejecting it; new_datetime is the validating way in.
+
+**See also** &nbsp; [`days_from_civil`](API-Functions#days_from_civil), [`new_datetime`](API-Functions#new_datetime), [`unix_to_date`](API-Functions#unix_to_date)
 
 ### date_to_weekday
 
@@ -165,7 +177,7 @@ Day of week for a civil date, derived from the same civil algorithm as every oth
 | `Month` | Month of year, 1-12. |
 | `Day` | Day of month, 1-31. |
 
-**Returns** &nbsp; The Weekday.
+**Returns** &nbsp; The Weekday..
 
 ### day_count_days
 
@@ -182,7 +194,9 @@ The whole-day count a convention measures between two instants: the numerator ye
 | `basis` | The day-count convention. Default ACT/365F. |
 | `ex` | The exchange whose zone resolves the endpoints into civil dates, and whose calendar counts ACT/252. Default NYSE. |
 
-**Returns** &nbsp; Signed day count; negative when t1 is before t0.
+**Returns** &nbsp; Signed day count; negative when t1 is before t0..
+
+**See also** &nbsp; [`year_fraction`](API-Functions#year_fraction)
 
 ### day_mask
 
@@ -197,7 +211,7 @@ The weekday bitmask for a contiguous run of days, from one weekday through anoth
 | `from_dow` | First weekday of the run. |
 | `to_dow` | Last weekday of the run, inclusive. Equal to from_dow means a single day. |
 
-**Returns** &nbsp; A mask in [1, 127], bit 0 Sunday through bit 6 Saturday.
+**Returns** &nbsp; A mask in [1, 127], bit 0 Sunday through bit 6 Saturday..
 
 ### days_from_civil
 
@@ -213,7 +227,11 @@ Days elapsed from 1970-01-01 to a civil date. Hinnant's days_from_civil: exact f
 | `Month` | Month of year, 1-12. |
 | `Day` | Day of month, 1-31. |
 
-**Returns** &nbsp; Signed day count relative to the Unix epoch. RAISES when Month is outside [1, 12] or Day outside [1, 31]. It does not check Day against the length of that month: this is the arithmetic floor of the library, and 31 February is caught one layer up by is_valid_date and new_datetime.
+**Returns** &nbsp; Signed day count relative to the Unix epoch.
+
+**Raises** &nbsp; when Month is outside [1, 12] or Day outside [1, 31]. It does not check Day against the length of that month: this is the arithmetic floor of the library, and 31 February is caught one layer up by is_valid_date and new_datetime.
+
+**See also** &nbsp; [`is_valid_date`](API-Functions#is_valid_date), [`new_datetime`](API-Functions#new_datetime)
 
 ### days_in_month
 
@@ -228,7 +246,9 @@ Number of days in a given month.
 | `Year` | Calendar year (needed for February). |
 | `Month` | Month of year, 1-12. |
 
-**Returns** &nbsp; 28, 29, 30 or 31. RAISES when Month is outside [1, 12]; there is no month 13 to have a length.
+**Returns** &nbsp; 28, 29, 30 or 31.
+
+**Raises** &nbsp; when Month is outside [1, 12]; there is no month 13 to have a length.
 
 ### days_in_year
 
@@ -242,7 +262,7 @@ Number of days in a given year.
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; 365, or 366 in a leap year.
+**Returns** &nbsp; 365, or 366 in a leap year..
 
 ### dst_end
 
@@ -257,7 +277,9 @@ The instant daylight saving ends in a zone in a year. For a southern-hemisphere 
 | `Year` | Calendar year. |
 | `z` | The zone. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when the zone has no daylight saving.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when the zone has no daylight saving..
+
+**See also** &nbsp; [`dst_start`](API-Functions#dst_start)
 
 ### dst_start
 
@@ -272,7 +294,9 @@ The instant daylight saving begins in a zone in a year. There is no built-in equ
 | `Year` | Calendar year. |
 | `z` | The zone. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when the zone has no daylight saving.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when the zone has no daylight saving..
+
+**See also** &nbsp; [`offset_at_rule`](API-Functions#offset_at_rule), [`window_at`](API-Session#window_at)
 
 ### easter_sunday
 
@@ -286,7 +310,7 @@ Easter Sunday, by the anonymous Gregorian computus (Meeus / Jones / Butcher).
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; A DateTime at midnight UTC on Easter Sunday of that year.
+**Returns** &nbsp; A DateTime at midnight UTC on Easter Sunday of that year..
 
 ### epoch
 
@@ -296,7 +320,7 @@ epoch()
 
 The Unix epoch, 1970-01-01T00:00:00Z.
 
-**Returns** &nbsp; A DateTime at the epoch.
+**Returns** &nbsp; A DateTime at the epoch..
 
 ### expiries_between
 
@@ -313,7 +337,11 @@ Every expiry of a cycle whose date falls in a span. Returns dates rather than in
 | `kind` | The expiry cycle to enumerate. |
 | `z` | The zone the endpoints are resolved to civil dates in. Default NEW_YORK, where every cycle here is listed. |
 
-**Returns** &nbsp; Array of DateTimes at midnight, ascending, possibly empty; an empty span holds no expiries. RAISES when to_ms is before from_ms, which is not a span, and when the span exceeds 20000 calendar days, refused outright, not silently truncated.
+**Returns** &nbsp; Array of DateTimes at midnight, ascending, possibly empty; an empty span holds no expiries.
+
+**Raises** &nbsp; when to_ms is before from_ms, which is not a span, and when the span exceeds 20000 calendar days, refused outright, not silently truncated.
+
+**See also** &nbsp; [`is_expiry_day`](API-DateTime#is_expiry_day)
 
 ### first_trading_day_of_month
 
@@ -329,7 +357,11 @@ The first trading day of a month.
 | `Month` | Month of year, 1-12. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on that day. RAISES when Month is outside [1, 12], failing in the caller's own terms rather than from days_in_month a call deeper. RAISES when the whole month holds no trading day, which no shipped calendar can produce and therefore means the calendar is wrong.
+**Returns** &nbsp; A DateTime at midnight on that day.
+
+**Raises** &nbsp; when Month is outside [1, 12], failing in the caller's own terms rather than from days_in_month a call deeper. RAISES when the whole month holds no trading day, which no shipped calendar can produce and therefore means the calendar is wrong.
+
+**See also** &nbsp; [`days_in_month`](API-Functions#days_in_month)
 
 ### fomc_known_from
 
@@ -339,7 +371,7 @@ fomc_known_from()
 
 The first year for which the FOMC meeting table is known.
 
-**Returns** &nbsp; Calendar year of the first covered date.
+**Returns** &nbsp; Calendar year of the first covered date..
 
 ### fomc_known_through
 
@@ -349,7 +381,7 @@ fomc_known_through()
 
 The last year for which the FOMC meeting table is known. Outside the window the predicates answer Known.UNKNOWN, a value, not na. Test it as one: `if x == Known.UNKNOWN`, or gate on this year first. `if na(x)` is dead code, because na(Known.UNKNOWN) is false: the branch never runs and the UNKNOWN flows on as though it had been checked.
 
-**Returns** &nbsp; Calendar year of the last covered date.
+**Returns** &nbsp; Calendar year of the last covered date..
 
 ### format_duration
 
@@ -364,7 +396,11 @@ Format a span of milliseconds as a human-readable duration, largest unit first. 
 | `ms` | The span in milliseconds; negative spans are prefixed with a minus sign. na in gives na out, rather than a string built around the word "NaN". |
 | `parts` | How many units to show, 1-4. Default 2, so "2d 4h" rather than "2d 4h 13m 9s". |
 
-**Returns** &nbsp; A string such as "2d 4h", "13m 9s" or "0s", or na when ms is na. RAISES when parts is outside [1, 4]: parts is the caller's formatting choice rather than data, so it is a bug, which is why it raises while an na span does not.
+**Returns** &nbsp; A string such as "2d 4h", "13m 9s" or "0s", or na when ms is na.
+
+**Raises** &nbsp; when parts is outside [1, 4]: parts is the caller's formatting choice rather than data, so it is a bug, which is why it raises while an na span does not.
+
+**See also** &nbsp; [`format_time`](API-Functions#format_time)
 
 ### format_iso_duration
 
@@ -378,7 +414,7 @@ A span of milliseconds in ISO-8601 duration form, e.g. "P2DT4H13M9S". Distinct f
 |---|---|
 | `ms` | The span in milliseconds; negative spans are prefixed with a minus sign. na in gives na out, the same guard format_duration carries and for the same reason. |
 
-**Returns** &nbsp; The ISO-8601 duration string, or na when ms is na.
+**Returns** &nbsp; The ISO-8601 duration string, or na when ms is na..
 
 ### format_ixdtf
 
@@ -393,7 +429,7 @@ Format an instant in the RFC 9557 extended format, which appends the zone in bra
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone to express it in. |
 
-**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS+HH:MM[Area/Location]".
+**Returns** &nbsp; A string of the form "YYYY-MM-DDTHH:MM:SS+HH:MM[Area/Location]"..
 
 ### format_relative
 
@@ -409,7 +445,11 @@ An instant described relative to another, the way a human says it: "3d 4h ago" f
 | `now_ms` | The instant it is measured from, typically timenow. |
 | `parts` | How many units to show, 1-4, passed through to format_duration. Default 2. |
 
-**Returns** &nbsp; A string such as "3d 4h ago", "in 2h 15m" or "now", or na when either instant is na, matching format_duration. RAISES when parts is outside [1, 4]. The check is here, not just in the delegate: the "now" branch returns before format_duration runs, and a bad parts value should fail on every call, not only once the instants drift more than a second apart.
+**Returns** &nbsp; A string such as "3d 4h ago", "in 2h 15m" or "now", or na when either instant is na, matching format_duration.
+
+**Raises** &nbsp; when parts is outside [1, 4]. The check is here, not just in the delegate: the "now" branch returns before format_duration runs, and a bad parts value should fail on every call, not only once the instants drift more than a second apart.
+
+**See also** &nbsp; [`format_duration`](API-Functions#format_duration)
 
 ### format_time
 
@@ -425,7 +465,9 @@ Format an instant in a zone. Takes a Zone rather than a timezone string, so it i
 | `pattern` | The format pattern. |
 | `z` | The zone to express the instant in. Required, with no default. This is the migration path from str.format_time, whose own default is the chart's timezone: a UTC default here would let a ported call compile cleanly and then silently mislabel every evening New York bar. Use z.to_iana() when you need the string form for a built-in. |
 
-**Returns** &nbsp; The formatted string. RAISES as format does: a reserved pattern letter, or an unterminated quote.
+**Returns** &nbsp; The formatted string.
+
+**Raises** &nbsp; as format does: a reserved pattern letter, or an unterminated quote.
 
 ### format_yymmdd
 
@@ -440,7 +482,7 @@ Format a timestamp as the six-character yyMMdd date fragment used by OPRA-style 
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone to resolve the date in. Default NEW_YORK, which is where OPRA quotes an expiry. A Zone rather than a fixed offset, so US daylight saving is applied by rule instead of being the caller's problem. |
 
-**Returns** &nbsp; Six-character string, e.g. "260821".
+**Returns** &nbsp; Six-character string, e.g. "260821"..
 
 ### good_friday
 
@@ -454,7 +496,7 @@ Good Friday, the Friday before Easter Sunday.
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; A DateTime at midnight UTC on Good Friday of that year.
+**Returns** &nbsp; A DateTime at midnight UTC on Good Friday of that year..
 
 ### holidays_between
 
@@ -470,7 +512,11 @@ Every date an exchange is closed for a holiday within a span. The market-calenda
 | `to_ms` | End of the span, Unix milliseconds. Exclusive by date: a holiday on the civil date this instant falls on is not reported. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; Array of DateTimes at midnight, ascending, possibly empty: CRYPTO's answer is always empty, as is any empty span's. RAISES when to_ms is before from_ms, which is not a span, and when the span exceeds 20000 calendar days, refused outright rather than silently truncated.
+**Returns** &nbsp; Array of DateTimes at midnight, ascending, possibly empty: CRYPTO's answer is always empty, as is any empty span's.
+
+**Raises** &nbsp; when to_ms is before from_ms, which is not a span, and when the span exceeds 20000 calendar days, refused outright rather than silently truncated.
+
+**See also** &nbsp; [`expiries_between`](API-Functions#expiries_between), [`is_holiday`](API-DateTime#is_holiday)
 
 ### is_dst
 
@@ -485,7 +531,7 @@ Whether daylight saving is in force in a zone at an instant.
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone. |
 
-**Returns** &nbsp; true when the offset differs from the zone's standard offset.
+**Returns** &nbsp; true when the offset differs from the zone's standard offset..
 
 ### is_leap_year
 
@@ -499,7 +545,7 @@ Whether a year is a leap year in the proleptic Gregorian calendar.
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; true when the year has 366 days.
+**Returns** &nbsp; true when the year has 366 days..
 
 ### is_valid_date
 
@@ -519,7 +565,9 @@ Whether a civil moment exists, without raising. This is the exact predicate new_
 | `Second` | Second of minute, 0-59. Default 0. |
 | `MS` | Millisecond of second, 0-999. Default 0. |
 
-**Returns** &nbsp; true when the moment is real.
+**Returns** &nbsp; true when the moment is real..
+
+**See also** &nbsp; [`try_new_datetime`](API-Functions#try_new_datetime)
 
 ### last_trading_day_of_month
 
@@ -535,7 +583,9 @@ The last trading day of a month. The month-end anchor of turn-of-month effects a
 | `Month` | Month of year, 1-12. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on that day. RAISES when Month is outside [1, 12], and when the whole month holds no trading day: impossible with the shipped calendars, so it signals broken calendar data.
+**Returns** &nbsp; A DateTime at midnight on that day.
+
+**Raises** &nbsp; when Month is outside [1, 12], and when the whole month holds no trading day: impossible with the shipped calendars, so it signals broken calendar data.
 
 ### merge_intervals
 
@@ -549,7 +599,9 @@ The union of a set of intervals: overlapping or exactly abutting spans are joine
 |---|---|
 | `intervals` | The intervals to merge. |
 
-**Returns** &nbsp; A new array of non-empty, pairwise disjoint, non-abutting intervals in ascending order; empty when the input is empty or holds only empty intervals. RAISES when intervals is na.
+**Returns** &nbsp; A new array of non-empty, pairwise disjoint, non-abutting intervals in ascending order; empty when the input is empty or holds only empty intervals.
+
+**Raises** &nbsp; when intervals is na.
 
 ### month_abbr
 
@@ -563,7 +615,7 @@ The three-letter English abbreviation of a month.
 |---|---|
 | `Month` | Month of year, 1-12. |
 
-**Returns** &nbsp; The abbreviation, e.g. "Aug".
+**Returns** &nbsp; The abbreviation, e.g. "Aug"..
 
 ### month_from_name
 
@@ -577,7 +629,7 @@ The month number for an English month name or three-letter abbreviation, case-in
 |---|---|
 | `name` | The month name, e.g. "August" or "Aug". |
 
-**Returns** &nbsp; Month in [1, 12], or na when unrecognised.
+**Returns** &nbsp; Month in [1, 12], or na when unrecognised..
 
 ### month_name
 
@@ -591,7 +643,9 @@ The English name of a month.
 |---|---|
 | `Month` | Month of year, 1-12. |
 
-**Returns** &nbsp; The full name, e.g. "August". RAISES when Month is outside [1, 12]. The switch is seeded "December" so that arm needs no case of its own; without the bound check, a 13 would print December.
+**Returns** &nbsp; The full name, e.g. "August".
+
+**Raises** &nbsp; when Month is outside [1, 12]. The switch is seeded "December" so that arm needs no case of its own; without the bound check, a 13 would print December.
 
 ### monthly_expiry
 
@@ -608,7 +662,7 @@ Unix timestamp of a standard US equity monthly option expiry at a chosen local c
 | `Hour` | Local hour of the close. Default 16 (16:00 New York). |
 | `z` | The zone the close time is quoted in. Default NEW_YORK. A Zone rather than a `float utc`, because the New York close follows daylight-saving rules that no single fixed offset can express; in this file `float utc` always means a fixed offset. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, resolved through Resolver.COMPATIBLE. At the 16:00 default no US transition is reachable, so the resolver never fires.
+**Returns** &nbsp; Unix timestamp in milliseconds, resolved through Resolver.COMPATIBLE. At the 16:00 default no US transition is reachable, so the resolver never fires..
 
 ### monthly_expiry_day
 
@@ -623,7 +677,7 @@ Standard US equity monthly option expiry: the third Friday of the month, moved t
 | `Year` | Calendar year. |
 | `Month` | Month of year, 1-12. |
 
-**Returns** &nbsp; Day of month on which the monthly contract expires.
+**Returns** &nbsp; Day of month on which the monthly contract expires..
 
 ### new_datetime
 
@@ -644,7 +698,11 @@ Build a DateTime from civil fields. RAISES on fields that do not describe a real
 | `MS` | Millisecond of second, 0-999. Default 0. |
 | `utc` | Offset from UTC in hours the fields are expressed in. Default 0. |
 
-**Returns** &nbsp; A populated DateTime. RAISES when the fields do not describe a real moment; is_valid_date is the predicate, so 31 February and hour 24 are both refused. try_new_datetime is the non-raising form.
+**Returns** &nbsp; A populated DateTime.
+
+**Raises** &nbsp; when the fields do not describe a real moment; is_valid_date is the predicate, so 31 February and hour 24 are both refused. try_new_datetime is the non-raising form.
+
+**See also** &nbsp; [`is_valid_date`](API-Functions#is_valid_date), [`try_new_datetime`](API-Functions#try_new_datetime)
 
 ### new_interval
 
@@ -659,7 +717,7 @@ Build an interval from two instants, ordering them so the result is never revers
 | `a` | One endpoint, Unix milliseconds. |
 | `b` | The other endpoint, Unix milliseconds. |
 
-**Returns** &nbsp; A half-open Interval [min, max).
+**Returns** &nbsp; A half-open Interval [min, max)..
 
 ### new_session
 
@@ -681,7 +739,9 @@ Build a custom session.
 | `BreakStartMin` | Start of an intraday break, minutes past local midnight, or na for none. Default na. |
 | `BreakEndMin` | End of that break. Default na. Given with BreakStartMin or not at all. |
 
-**Returns** &nbsp; The Session. RAISES on five things a Session cannot mean: StartMin or EndMin outside a day, a DayMask outside [0, 127], EarlyClose set without a Cal to read the early close from, half a break pair, and a break that is not strictly inside the window. All five are caller errors, not missing data.
+**Returns** &nbsp; The Session.
+
+**Raises** &nbsp; on five things a Session cannot mean: StartMin or EndMin outside a day, a DayMask outside [0, 127], EarlyClose set without a Cal to read the early close from, half a break pair, and a break that is not strictly inside the window. All five are caller errors, not missing data.
 
 ### next_expiry_after
 
@@ -698,7 +758,9 @@ The next expiry of a close-settled cycle strictly after an instant. One function
 | `z` | The zone the instant is read in and the close time is quoted in. Default NEW_YORK. |
 | `kind` | The expiry cycle to walk. Default MONTHLY, the classic third-Friday cycle. RAISES on ExpiryKind.VIX: VIX settles at 09:30 in the morning, an instant a close-shaped Hour cannot name, and silently ignoring the Hour would be worse than an error; use next_vix_settlement_after, which quotes the settlement moment in its own terms. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds of the next expiry of that cycle. RAISES on ExpiryKind.VIX, see kind. RAISES under DAILY when a 30-day walk finds no trading day, which only broken calendar data can cause.
+**Returns** &nbsp; Unix timestamp in milliseconds of the next expiry of that cycle.
+
+**Raises** &nbsp; on ExpiryKind.VIX, see kind. RAISES under DAILY when a 30-day walk finds no trading day, which only broken calendar data can cause.
 
 ### next_fomc_after
 
@@ -714,7 +776,7 @@ The instant of the next FOMC decision strictly after a given one.
 | `Hour` | Local hour of the statement. Default 14, when the statement is normally released. |
 | `z` | The zone the instant is read in and the statement hour is quoted in. Default NEW_YORK, which is where the Fed publishes. A parameter because the hour and the zone are one fact ("14:00 New York"), and the three other exports that pair an Hour with an instant (monthly_expiry, quarterly_expiry, next_expiry_after) take both. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, or na when the next meeting falls outside the published window.
+**Returns** &nbsp; Unix timestamp in milliseconds, or na when the next meeting falls outside the published window..
 
 ### next_holiday_after
 
@@ -729,7 +791,9 @@ The next date an exchange is closed for a holiday, strictly after the date an in
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; A DateTime at midnight on the next holiday, or na when no holiday falls within a 400-calendar-day scan. na rather than a raise, because "no holiday ahead" is an answer and not a caller bug: CRYPTO never closes, so it always answers na, and every other shipped calendar closes at least once inside any 400-day window.
+**Returns** &nbsp; A DateTime at midnight on the next holiday, or na when no holiday falls within a 400-calendar-day scan. na rather than a raise, because "no holiday ahead" is an answer and not a caller bug: CRYPTO never closes, so it always answers na, and every other shipped calendar closes at least once inside any 400-day window..
+
+**See also** &nbsp; [`holiday_name`](API-DateTime#holiday_name), [`next_fomc_after`](API-Functions#next_fomc_after), [`next_trading_day`](API-DateTime#next_trading_day)
 
 ### next_vix_settlement_after
 
@@ -746,7 +810,9 @@ The instant of the next VIX final settlement strictly after a given one. The VIX
 | `Minute` | Local minute of the settlement moment. Default 30. |
 | `z` | The zone the instant is read in and the settlement time is quoted in. Default NEW_YORK. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds of the next VIX settlement. The one-month step is exhaustive: a settlement lands mid-month, so the following month's is strictly ahead of any instant this month's has already passed.
+**Returns** &nbsp; Unix timestamp in milliseconds of the next VIX settlement. The one-month step is exhaustive: a settlement lands mid-month, so the following month's is strictly ahead of any instant this month's has already passed..
+
+**See also** &nbsp; [`next_expiry_after`](API-Functions#next_expiry_after)
 
 ### now
 
@@ -760,7 +826,7 @@ The current moment, in a zone.
 |---|---|
 | `z` | The zone to express it in. Default UTC. |
 
-**Returns** &nbsp; A DateTime for now.
+**Returns** &nbsp; A DateTime for now..
 
 ### nth_weekday_of_month
 
@@ -777,7 +843,9 @@ Day of month of the nth given weekday, following java.time's dayOfWeekInMonth se
 | `dow` | Weekday wanted. |
 | `nth` | Positive counts from the start of the month (1 = first); negative counts back from the end (-1 = last). Zero is invalid. |
 
-**Returns** &nbsp; Day of month, or na when that occurrence does not exist in the month (e.g. a fifth Friday that the month does not contain). RAISES when nth is 0, which names no occurrence: an invalid argument, not a missing date.
+**Returns** &nbsp; Day of month, or na when that occurrence does not exist in the month (e.g. a fifth Friday that the month does not contain).
+
+**Raises** &nbsp; when nth is 0, which names no occurrence: an invalid argument, not a missing date.
 
 ### offset_at
 
@@ -792,7 +860,7 @@ Offset from UTC in force in a zone at an instant, daylight saving applied.
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone. |
 
-**Returns** &nbsp; Offset in hours.
+**Returns** &nbsp; Offset in hours..
 
 ### offset_at_rule
 
@@ -808,7 +876,7 @@ Offset in force at an instant under an arbitrary rule. This computes an offset a
 | `std_off` | The zone's standard offset in hours. |
 | `dr` | The daylight-saving rule. |
 
-**Returns** &nbsp; Offset from UTC in hours at that instant.
+**Returns** &nbsp; Offset from UTC in hours at that instant..
 
 ### parse_iso
 
@@ -822,7 +890,7 @@ Parse an ISO-8601 date-time. Accepts more than timestamp() does: extended ("2026
 |---|---|
 | `s` | The string to parse. |
 
-**Returns** &nbsp; A DateTime carrying any offset found, or na when the string is not valid ISO-8601. Returns na rather than guessing.
+**Returns** &nbsp; A DateTime carrying any offset found, or na when the string is not valid ISO-8601. Returns na rather than guessing..
 
 ### parse_iso_duration
 
@@ -836,7 +904,9 @@ Parse an ISO-8601 duration such as "P2DT4H13M9S", "PT1.5S" or "-PT10M" (the form
 |---|---|
 | `s` | The string to parse. |
 
-**Returns** &nbsp; The span in milliseconds, or na when the string is not a valid date-part-free ISO duration. na and never a raise: malformed input is data rather than a caller bug, the clause every parser in this file follows.
+**Returns** &nbsp; The span in milliseconds, or na when the string is not a valid date-part-free ISO duration. na and never a raise: malformed input is data rather than a caller bug, the clause every parser in this file follows..
+
+**See also** &nbsp; [`format_iso_duration`](API-Functions#format_iso_duration), [`parse_iso_period`](API-Functions#parse_iso_period)
 
 ### parse_iso_period
 
@@ -850,7 +920,7 @@ Parse an ISO-8601 period such as "P1Y2M3D", "P3M", "P1W", "-P10D" or "P-1Y-2M-3D
 |---|---|
 | `s` | The string to parse. |
 
-**Returns** &nbsp; The Period, or na when the string is not a valid date-only ISO period. A week form becomes days: "P1W" parses as 7 days, not a fourth field, because a week is exactly seven days, unlike a month.
+**Returns** &nbsp; The Period, or na when the string is not a valid date-only ISO period. A week form becomes days: "P1W" parses as 7 days, not a fourth field, because a week is exactly seven days, unlike a month..
 
 ### parse_session
 
@@ -868,7 +938,9 @@ Parse a TradingView-style session string such as "0930-1600" or "0930-1600:23456
 | `Cal` | The exchange calendar, or na for none. Default na, since a bare time range says nothing about holidays. |
 | `EarlyClose` | Whether to pull the end in on a half day. Default false. Raises if set without a Cal. |
 
-**Returns** &nbsp; The Session, or na when the string is malformed or the times are not a legal clock range. "2430" and "-100" are na rather than a Session with 1470 or -60 minutes in it: this returns only Sessions new_session would have built. A string with two or more commas is na too: TradingView writes those, and this model has one break to put them in.
+**Returns** &nbsp; The Session, or na when the string is malformed or the times are not a legal clock range. "2430" and "-100" are na rather than a Session with 1470 or -60 minutes in it: this returns only Sessions new_session would have built. A string with two or more commas is na too: TradingView writes those, and this model has one break to put them in..
+
+**See also** &nbsp; [`new_session`](API-Functions#new_session)
 
 ### parse_tenor
 
@@ -882,7 +954,7 @@ Parse a tenor string such as "1D", "2W", "3M" or "1Y" into a Period. Case-insens
 |---|---|
 | `tenor` | The tenor string: an integer followed by D, W, M or Y. |
 
-**Returns** &nbsp; The equivalent Period, or na when the string is not a tenor. A week becomes seven days; a month stays a month, because they are not the same kind of quantity.
+**Returns** &nbsp; The equivalent Period, or na when the string is not a tenor. A week becomes seven days; a month stays a month, because they are not the same kind of quantity..
 
 ### quarter
 
@@ -897,7 +969,9 @@ Calendar quarter containing a month, or the fiscal quarter, when the fiscal year
 | `Month` | Month of year, 1-12. |
 | `fiscal_start` | Month the fiscal year begins in, 1-12. Default 1, which makes this the plain calendar quarter every internal caller relies on. Pass 4 for an April fiscal year (Japan, the UK): April answers 1 and March answers 4. Pass 10 for the US federal October year. |
 
-**Returns** &nbsp; Quarter in [1, 4]. RAISES when Month or fiscal_start is outside [1, 12]; a 13th month has no quarter.
+**Returns** &nbsp; Quarter in [1, 4].
+
+**Raises** &nbsp; when Month or fiscal_start is outside [1, 12]; a 13th month has no quarter.
 
 ### quarterly_expiry
 
@@ -914,7 +988,11 @@ Unix timestamp of a quarterly expiry.
 | `Hour` | Local hour of the close. Default 16. |
 | `z` | The zone the close time is quoted in. Default NEW_YORK. Forwarded to monthly_expiry, which is the only reason a quarterly expiry could be computed in New York alone. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds. RAISES when Q is outside [1, 4]. Q is not a month: a 5 would multiply into month 15, which days_in_month refuses several calls deeper, naming a function the caller never invoked. Checking the bound here fails in the caller's own terms.
+**Returns** &nbsp; Unix timestamp in milliseconds.
+
+**Raises** &nbsp; when Q is outside [1, 4]. Q is not a month: a 5 would multiply into month 15, which days_in_month refuses several calls deeper, naming a function the caller never invoked. Checking the bound here fails in the caller's own terms.
+
+**See also** &nbsp; [`days_in_month`](API-Functions#days_in_month)
 
 ### russell_rebalance_day
 
@@ -928,7 +1006,7 @@ FTSE Russell annual reconstitution: the last Friday in June, one of the highest-
 |---|---|
 | `Year` | Calendar year. |
 
-**Returns** &nbsp; Day of month in June, by the unmodified last-Friday rule.
+**Returns** &nbsp; Day of month in June, by the unmodified last-Friday rule..
 
 ### session_of
 
@@ -942,7 +1020,7 @@ One of the built-in standard sessions.
 |---|---|
 | `id` | Which session. |
 
-**Returns** &nbsp; The Session.
+**Returns** &nbsp; The Session..
 
 ### sort_intervals
 
@@ -956,7 +1034,9 @@ Sort an array of intervals in place by start, ties by end, and return the same a
 |---|---|
 | `intervals` | The intervals to sort. |
 
-**Returns** &nbsp; The same array, now ascending by FromMS then ToMS. RAISES when intervals is na: there is no array even to return.
+**Returns** &nbsp; The same array, now ascending by FromMS then ToMS.
+
+**Raises** &nbsp; when intervals is na: there is no array even to return.
 
 ### today
 
@@ -970,7 +1050,9 @@ The current date at true local midnight in a zone, meaning the record's own to_u
 |---|---|
 | `z` | The zone to resolve the date in. Required, with no default: "today" is a different date either side of the dateline, so there is no zone this function could pick that is right for a caller who did not think about it. |
 
-**Returns** &nbsp; A DateTime at the start of today, carrying the offset in force at that midnight.
+**Returns** &nbsp; A DateTime at the start of today, carrying the offset in force at that midnight..
+
+**See also** &nbsp; [`start_of`](API-DateTime#start_of), [`to_unix`](API-Zone#to_unix)
 
 ### trading_days_in_month
 
@@ -986,7 +1068,9 @@ How many trading days a month holds. The monthly slice of the ACT/252 denominato
 | `Month` | Month of year, 1-12. |
 | `ex` | The exchange. Default NYSE. |
 
-**Returns** &nbsp; The count: 19 to 23 on the equity calendars, up to 31 under CRYPTO, where every calendar day trades. RAISES when Month is outside [1, 12].
+**Returns** &nbsp; The count: 19 to 23 on the equity calendars, up to 31 under CRYPTO, where every calendar day trades.
+
+**Raises** &nbsp; when Month is outside [1, 12].
 
 ### try_new_datetime
 
@@ -1007,7 +1091,9 @@ Build a DateTime, returning na instead of raising when the fields do not describ
 | `MS` | Millisecond, 0-999. Default 0. |
 | `utc` | Offset from UTC in hours. Default 0. |
 
-**Returns** &nbsp; A DateTime, or na when the input is not a real moment.
+**Returns** &nbsp; A DateTime, or na when the input is not a real moment..
+
+**See also** &nbsp; [`new_datetime`](API-Functions#new_datetime)
 
 ### unix_to_date
 
@@ -1022,7 +1108,9 @@ Convert a Unix timestamp to a civil date-time. Inverse of date_to_unix. Hinnant'
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `utc` | Offset from UTC in hours to express the result in. Default 0. |
 
-**Returns** &nbsp; A DateTime carrying the civil fields, the offset used, and the day of week.
+**Returns** &nbsp; A DateTime carrying the civil fields, the offset used, and the day of week..
+
+**See also** &nbsp; [`date_to_unix`](API-Functions#date_to_unix)
 
 ### unix_to_date_zone
 
@@ -1037,7 +1125,7 @@ Convert an instant to civil time in a zone, daylight saving applied.
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone. |
 
-**Returns** &nbsp; A DateTime whose UTC field carries the offset actually in force.
+**Returns** &nbsp; A DateTime whose UTC field carries the offset actually in force..
 
 ### vix_settlement
 
@@ -1055,7 +1143,11 @@ Unix timestamp of a VIX final settlement: the Special Opening Quotation moment, 
 | `Minute` | Local minute of the settlement moment. Default 30. |
 | `z` | The zone the settlement time is quoted in. Default NEW_YORK, matching the convention here that US-listed expiry times are quoted in New York. |
 
-**Returns** &nbsp; Unix timestamp in milliseconds, resolved through Resolver.COMPATIBLE. At the 09:30 default no US transition is reachable, so the resolver never fires. RAISES as vix_settlement_day does, on a Month outside [1, 12].
+**Returns** &nbsp; Unix timestamp in milliseconds, resolved through Resolver.COMPATIBLE. At the 09:30 default no US transition is reachable, so the resolver never fires.
+
+**Raises** &nbsp; as vix_settlement_day does, on a Month outside [1, 12].
+
+**See also** &nbsp; [`monthly_expiry`](API-Functions#monthly_expiry), [`vix_settlement_day`](API-Functions#vix_settlement_day)
 
 ### vix_settlement_day
 
@@ -1070,7 +1162,11 @@ VIX final settlement day for a contract month: the Wednesday thirty days before 
 | `Year` | Calendar year of the settlement. |
 | `Month` | Month of the settlement, 1-12. Also the contract month: the anchor Friday lives in the following month, but thirty days back always lands in this one, so the walked answer cannot leave it either. |
 
-**Returns** &nbsp; Day of month on which the VIX contract settles: mid-month, a Wednesday unless a holiday stepped it. RAISES when Month is outside [1, 12]: a 13th month would compute the third Friday of a 14th, and days_in_month would then refuse a call the caller never made. RAISES when no business day precedes the computed Wednesday within a week: a full week of consecutive mid-month closures does not happen, so this signals a broken holiday table.
+**Returns** &nbsp; Day of month on which the VIX contract settles: mid-month, a Wednesday unless a holiday stepped it.
+
+**Raises** &nbsp; when Month is outside [1, 12]: a 13th month would compute the third Friday of a 14th, and days_in_month would then refuse a call the caller never made. RAISES when no business day precedes the computed Wednesday within a week: a full week of consecutive mid-month closures does not happen, so this signals a broken holiday table.
+
+**See also** &nbsp; [`days_in_month`](API-Functions#days_in_month), [`monthly_expiry_day`](API-Functions#monthly_expiry_day)
 
 ### weekday_from_int
 
@@ -1084,7 +1180,7 @@ Weekday for a numeric code, 0 = Sunday through 6 = Saturday.
 |---|---|
 | `n` | Integer code; values outside [0, 6] wrap by non-negative modulo rather than erroring, so arithmetic on codes is safe. |
 
-**Returns** &nbsp; The corresponding Weekday.
+**Returns** &nbsp; The corresponding Weekday..
 
 ### weekday_from_name
 
@@ -1098,7 +1194,7 @@ The Weekday for an English day name or three-letter abbreviation, case-insensiti
 |---|---|
 | `name` | The day name, e.g. "Friday" or "Fri". |
 
-**Returns** &nbsp; The Weekday, or na when unrecognised.
+**Returns** &nbsp; The Weekday, or na when unrecognised..
 
 ### weekday_from_pine_dow
 
@@ -1112,7 +1208,7 @@ The Weekday for a value from Pine's dayofweek built-in or the dayofweek.* consta
 |---|---|
 | `n` | Pine day-of-week value in [1, 7]. |
 
-**Returns** &nbsp; The Weekday.
+**Returns** &nbsp; The Weekday..
 
 ### year_fraction
 
@@ -1129,7 +1225,7 @@ Year fraction between two instants under a day-count convention. ACT/365F and AC
 | `basis` | The day-count convention. Default ACT/365F. |
 | `ex` | The exchange this tenor is measured in: its calendar for ACT/252, and its clock for every convention that counts days rather than milliseconds. Default NYSE. ACT/365F and ACT/360 are pure elapsed milliseconds and ignore it entirely. Under CRYPTO, ACT/252 counts every calendar day: see the DayCount notes; the convention crypto actually uses is ACT/365F. |
 
-**Returns** &nbsp; Year fraction; negative when t1 is before t0.
+**Returns** &nbsp; Year fraction; negative when t1 is before t0..
 
 ### zone_from_iana
 
@@ -1143,7 +1239,7 @@ The Zone for an IANA identifier, so a string from syminfo.timezone or a user inp
 |---|---|
 | `name` | The IANA identifier, e.g. "America/New_York". Case-sensitive. |
 
-**Returns** &nbsp; The Zone, or na when the identifier is not one this library models. na means "not modelled", not UTC.
+**Returns** &nbsp; The Zone, or na when the identifier is not one this library models. na means "not modelled", not UTC..
 
 ### zone_offset_string
 
@@ -1158,7 +1254,7 @@ The offset in force in a zone at an instant, spelled the way Pine's timezone arg
 | `unix_ms` | Unix timestamp in milliseconds. |
 | `z` | The zone. |
 
-**Returns** &nbsp; A string such as "UTC-04:00".
+**Returns** &nbsp; A string such as "UTC-04:00"..
 
 ---
 

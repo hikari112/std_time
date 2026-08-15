@@ -46,7 +46,7 @@ Whether two intervals meet exactly end to start without overlapping: the conditi
 |---|---|
 | `other` | The second Interval. |
 
-**Returns** &nbsp; true when one ends precisely where the other begins.
+**Returns** &nbsp; true when one ends precisely where the other begins..
 
 ### contains
 
@@ -60,7 +60,7 @@ Whether an instant falls inside this interval. The interval is half-open, [FromM
 |---|---|
 | `unix_ms` | Unix timestamp in milliseconds. |
 
-**Returns** &nbsp; true when FromMS <= unix_ms < ToMS.
+**Returns** &nbsp; true when FromMS <= unix_ms < ToMS..
 
 ### duration
 
@@ -70,7 +70,7 @@ Interval.duration()
 
 The length of this interval in milliseconds.
 
-**Returns** &nbsp; Milliseconds spanned; zero when empty.
+**Returns** &nbsp; Milliseconds spanned; zero when empty..
 
 ### encloses
 
@@ -84,7 +84,7 @@ Whether this interval wholly contains another.
 |---|---|
 | `other` | The inner Interval. |
 
-**Returns** &nbsp; true when other lies entirely within this.
+**Returns** &nbsp; true when other lies entirely within this..
 
 ### equals
 
@@ -98,7 +98,7 @@ Whether two intervals have identical endpoints.
 |---|---|
 | `other` | The second Interval. |
 
-**Returns** &nbsp; true when both endpoints match.
+**Returns** &nbsp; true when both endpoints match..
 
 ### gap
 
@@ -112,7 +112,7 @@ The empty span between two intervals that neither overlap nor touch.
 |---|---|
 | `other` | The second Interval. |
 
-**Returns** &nbsp; The gap Interval, or na when they overlap or abut.
+**Returns** &nbsp; The gap Interval, or na when they overlap or abut..
 
 ### intersection
 
@@ -126,7 +126,7 @@ The overlapping part of two intervals.
 |---|---|
 | `other` | The second Interval. |
 
-**Returns** &nbsp; The shared Interval, or na when they do not overlap.
+**Returns** &nbsp; The shared Interval, or na when they do not overlap..
 
 ### is_empty
 
@@ -136,7 +136,7 @@ Interval.is_empty()
 
 Whether this interval contains no instants at all.
 
-**Returns** &nbsp; true when the end is not after the start.
+**Returns** &nbsp; true when the end is not after the start..
 
 ### overlaps
 
@@ -150,7 +150,7 @@ Whether two intervals share any instant. Half-open, so intervals that merely tou
 |---|---|
 | `other` | The second Interval. |
 
-**Returns** &nbsp; true when they intersect.
+**Returns** &nbsp; true when they intersect..
 
 ### to_iso
 
@@ -160,7 +160,7 @@ Interval.to_iso()
 
 This interval in ISO-8601 interval form, "start/end", with both endpoints in UTC.
 
-**Returns** &nbsp; A string such as "2026-08-21T13:30:00Z/2026-08-21T20:00:00Z".
+**Returns** &nbsp; A string such as "2026-08-21T13:30:00Z/2026-08-21T20:00:00Z"..
 
 ---
 

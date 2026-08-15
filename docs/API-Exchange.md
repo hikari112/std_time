@@ -22,7 +22,9 @@ Exchange.calendar_from()
 
 The first year an exchange's calendar answers exactly. Before it the rules still run, but nothing has checked them and the tabled layers are empty, so a holiday there is the rules extrapolated backwards rather than the exchange's own record.
 
-**Returns** &nbsp; Calendar year, or na for a calendar with no lower bound to state. RAISES on an Exchange the switch does not handle, a library bug.
+**Returns** &nbsp; Calendar year, or na for a calendar with no lower bound to state.
+
+**Raises** &nbsp; on an Exchange the switch does not handle, a library bug.
 
 ### calendar_through
 
@@ -32,7 +34,9 @@ Exchange.calendar_through()
 
 The last year an exchange's calendar answers exactly, or na when its rules extrapolate without a horizon. A calendar built from rules keeps generating dates forever and only its unscheduled closures are unpredictable; one built from a table stops when the table does, and past that it would report every tabled holiday as an ordinary trading day. That is the difference this reports.
 
-**Returns** &nbsp; Calendar year of the last covered date, or na when no horizon applies. RAISES on an Exchange the switch does not handle, a library bug. Comparing a year against na yields na, which is false, so `if Year > ex.calendar_through()` reads correctly as "never past it" for the unbounded calendars.
+**Returns** &nbsp; Calendar year of the last covered date, or na when no horizon applies.
+
+**Raises** &nbsp; on an Exchange the switch does not handle, a library bug. Comparing a year against na yields na, which is false, so `if Year > ex.calendar_through()` reads correctly as "never past it" for the unbounded calendars.
 
 ### zone
 
@@ -42,7 +46,9 @@ Exchange.zone()
 
 The zone an exchange's local session times are quoted in.
 
-**Returns** &nbsp; The Zone. RAISES on an Exchange the switch does not handle, a library bug, and a loud one by design: every session boundary in this file resolves through here, so an unhandled member falling through to New York would move them all at once.
+**Returns** &nbsp; The Zone.
+
+**Raises** &nbsp; on an Exchange the switch does not handle, a library bug, and a loud one by design: every session boundary in this file resolves through here, so an unhandled member falling through to New York would move them all at once.
 
 ## Enums
 

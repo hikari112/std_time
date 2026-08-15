@@ -175,6 +175,20 @@ def tag_text(line):
     return body.split(None, 1)[1].strip() if len(body.split(None, 1)) > 1 else ""
 
 
+def split_raises(returns_text):
+    """Separate the RAISES clause from the ordinary return description.
+
+    Every RAISES clause in this library tails its @returns text, so the first
+    occurrence splits it cleanly. Two RAISES in one annotation both land in the
+    clause, which is what a reader wants.
+    """
+    i = returns_text.find("RAISES")
+    if i < 0:
+        return returns_text, ""
+    head = returns_text[:i].rstrip().rstrip(".").rstrip()
+    return head, returns_text[i:].strip()
+
+
 def parse(source_lines):
     exports = []
     for i, line in enumerate(source_lines):
@@ -344,7 +358,28 @@ def render_signature(e):
     return f"{e.receiver}.{e.name}({rest})"
 
 
-def render_export(e):
+def cross_references(e, index):
+    """Other exports this one's prose names, as links.
+
+    Only names containing an underscore are matched. The source writes function
+    references bare ("try_new_datetime is the non-raising form"), so there is no
+    punctuation to key on, and an underscored name cannot collide with an
+    ordinary English word the way `rule`, `name` or `format` would.
+    """
+    text = f"{e.description} {e.returns}"
+    hits = []
+    for name in sorted(index, key=len, reverse=True):
+        if "_" not in name or name == e.name:
+            continue
+        if re.search(rf"\b{re.escape(name)}\b", text):
+            hits.append(name)
+    # Drop any name wholly contained in a longer one already matched, so
+    # "monthly_expiry" does not ride along with "monthly_expiry_day".
+    kept = [n for n in hits if not any(n != o and n in o for o in hits)]
+    return sorted(kept)
+
+
+def render_export(e, index=None):
     out = [f"### {e.anchor}", ""]
 
     if e.kind in ("enum", "type"):
@@ -377,13 +412,27 @@ def render_export(e):
             out.append("")
 
     if e.returns:
-        out.append(f"**Returns** &nbsp; {e.returns}")
-        out.append("")
+        normal, raises = split_raises(e.returns)
+        if normal:
+            out.append(f"**Returns** &nbsp; {normal}.")
+            out.append("")
+        if raises:
+            body = raises[len("RAISES"):].strip()
+            out.append(f"**Raises** &nbsp; {body}")
+            out.append("")
+
+    if index:
+        refs = cross_references(e, index)
+        if refs:
+            links = ", ".join(f"[`{r}`]({index[r].page}#{r.lower()})" for r in refs)
+            out.append(f"**See also** &nbsp; {links}")
+            out.append("")
 
     return "\n".join(out)
 
 
 def render_page(page, exports, all_exports):
+    index = {x.name: x for x in all_exports}
     concept_page, concept_name = CONCEPTS[page]
     title = page.replace("API-", "")
 
@@ -403,7 +452,7 @@ def render_page(page, exports, all_exports):
         out.append("## The type")
         out.append("")
         for e in types:
-            out.append(render_export(e))
+            out.append(render_export(e, index))
 
     if callables:
         out.append("## Members")
@@ -417,7 +466,7 @@ def render_page(page, exports, all_exports):
         out.append("## Reference")
         out.append("")
         for e in sorted(callables, key=lambda x: x.name):
-            out.append(render_export(e))
+            out.append(render_export(e, index))
 
     if enums:
         out.append("## Enums")
@@ -429,7 +478,7 @@ def render_page(page, exports, all_exports):
                        f"{md_escape(first_sentence(e.description))} |")
         out.append("")
         for e in sorted(enums, key=lambda x: x.name):
-            out.append(render_export(e))
+            out.append(render_export(e, index))
 
     out.append("---")
     out.append("")

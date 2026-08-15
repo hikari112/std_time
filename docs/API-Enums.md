@@ -20,7 +20,9 @@ Known.is_yes()
 
 Collapse a three-valued answer to a bool, treating UNKNOWN as false. Only call this after checking coverage first (fomc_known_from and fomc_known_through, or calendar_from and calendar_through), because it reads "not known" as "no".
 
-**Returns** &nbsp; true only for YES.
+**Returns** &nbsp; true only for YES..
+
+**See also** &nbsp; [`calendar_from`](API-Exchange#calendar_from), [`calendar_through`](API-Exchange#calendar_through), [`fomc_known_from`](API-Functions#fomc_known_from), [`fomc_known_through`](API-Functions#fomc_known_through)
 
 ## Enums
 

@@ -47,7 +47,7 @@ Whether two periods have identical fields. 12 months and 1 year are not equal un
 |---|---|
 | `other` | The second Period. |
 
-**Returns** &nbsp; true when the fields match.
+**Returns** &nbsp; true when the fields match..
 
 ### is_negative
 
@@ -57,7 +57,7 @@ Period.is_negative()
 
 Whether any field of this period is negative. A period can be mixed, e.g. 1 year minus 5 days, so this asks whether any component points backward.
 
-**Returns** &nbsp; true when some field is negative.
+**Returns** &nbsp; true when some field is negative..
 
 ### is_zero
 
@@ -67,7 +67,7 @@ Period.is_zero()
 
 Whether every field of this period is zero.
 
-**Returns** &nbsp; true for a zero period.
+**Returns** &nbsp; true for a zero period..
 
 ### minus
 
@@ -81,7 +81,7 @@ The difference of two periods, field by field.
 |---|---|
 | `other` | The Period to subtract. |
 
-**Returns** &nbsp; A new Period.
+**Returns** &nbsp; A new Period..
 
 ### multiplied_by
 
@@ -95,7 +95,7 @@ This period with every field scaled.
 |---|---|
 | `n` | The multiplier. |
 
-**Returns** &nbsp; A new Period.
+**Returns** &nbsp; A new Period..
 
 ### negated
 
@@ -105,7 +105,7 @@ Period.negated()
 
 This period with every field's sign flipped.
 
-**Returns** &nbsp; A new Period.
+**Returns** &nbsp; A new Period..
 
 ### normalized
 
@@ -115,7 +115,7 @@ Period.normalized()
 
 This period with surplus months folded into years, as java.time's Period.normalized: 1 year 15 months becomes 2 years 3 months. Days are left alone, because a day is not a fraction of a month.
 
-**Returns** &nbsp; A new Period.
+**Returns** &nbsp; A new Period..
 
 ### plus
 
@@ -129,7 +129,7 @@ The sum of two periods, field by field. Not normalised, because 1 month plus 30 
 |---|---|
 | `other` | The second Period. |
 
-**Returns** &nbsp; A new Period.
+**Returns** &nbsp; A new Period..
 
 ### to_iso
 
@@ -139,7 +139,7 @@ Period.to_iso()
 
 This period in ISO-8601 form, e.g. "P1Y2M3D". A zero period is "P0D", as in java.time.
 
-**Returns** &nbsp; The ISO-8601 period string.
+**Returns** &nbsp; The ISO-8601 period string..
 
 ### to_total_months
 
@@ -149,7 +149,7 @@ Period.to_total_months()
 
 The years and months of this period expressed as a month count. Days are excluded, since they do not convert.
 
-**Returns** &nbsp; Total whole months.
+**Returns** &nbsp; Total whole months..
 
 ---
 
