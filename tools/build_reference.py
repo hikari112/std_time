@@ -512,6 +512,107 @@ def render_index(exports):
     return "\n".join(out)
 
 
+
+# Task Index groupings. Keyed by the source's own section banners, which are
+# already task-shaped, and titled as the question a reader arrives with.
+SECTION_QUESTIONS = [
+    ("civil core",              "Build a date, or convert one to and from an instant"),
+    ("weekday codes",           "Work with weekdays"),
+    ("weekday",                 "Work with weekdays"),
+    ("adjusters",               "Find the nth weekday of a month"),
+    ("ordinal / fields",        "Ask which week, quarter or day of year this is"),
+    ("arithmetic: civil time",  "Move a date by calendar amounts"),
+    ("arithmetic: exact time",  "Move an instant by exact amounts"),
+    ("differences",             "Measure the gap between two dates"),
+    ("ordering",                "Compare or order two dates"),
+    ("truncation and rounding", "Snap a date to a unit boundary"),
+    ("withers",                 "Change one field of a date"),
+    ("predicates and shape",    "Ask a yes or no question about a date"),
+    ("factories and bounds",    "Get today, now, or the epoch"),
+    ("zone engine",             "Work with time zones and daylight saving"),
+    ("zone conversion",         "Move a date between zones"),
+    ("easter",                  "Find Easter and Good Friday"),
+    ("period",                  "Work with calendar amounts of time"),
+    ("intervals",               "Work with spans of instants"),
+    ("interval",                "Work with spans of instants"),
+    ("market calendars",        "Ask whether a market is open on a date"),
+    ("business days",           "Count or move by trading days"),
+    ("day counts",              "Compute a year fraction for pricing"),
+    ("EXPIRIES",                "Find an option expiry or VIX settlement"),
+    ("SESSIONS",                "Work with trading sessions and bars"),
+    ("economic calendar",       "Find FOMC dates and index rebalances"),
+    ("formatting",              "Turn a date into a string"),
+    ("PATTERN FORMATTING, PARSING, AND INTEROP WITH THE BUILT-INS",
+                                "Turn a date into a string"),
+    ("parsing",                 "Turn a string into a date"),
+    ("built-in interop",        "Bridge to Pine's own date built-ins"),
+]
+
+
+def section_of(source_lines):
+    """Map each export name to the source section banner above it."""
+    import re as _re
+    dash = _re.compile(r"^// -+ (.+?) -+$")
+    eq_titled = _re.compile(r"^// =+ ([A-Z][A-Za-z0-9 ,/&-]+?) =+$")
+    bare_eq = _re.compile(r"^// ={10,}$")
+    caps = _re.compile(r"^// ([A-Z][A-Z0-9 ,/&-]{2,})$")
+
+    out, current = {}, None
+    for i, line in enumerate(source_lines):
+        st = line.strip()
+        m = dash.match(st) or eq_titled.match(st)
+        if m:
+            current = m.group(1).strip()
+        elif bare_eq.match(st) and i + 1 < len(source_lines):
+            m2 = caps.match(source_lines[i + 1].strip())
+            if m2:
+                current = m2.group(1).strip()
+        elif line.startswith("export "):
+            rest = line[len("export "):]
+            for kw in ("enum ", "type ", "method "):
+                if rest.startswith(kw):
+                    rest = rest[len(kw):]
+                    break
+            out[rest.split("(")[0].strip()] = current
+    return out
+
+
+def render_task_index(exports, sections):
+    out = ["# Task Index", ""]
+    out.append("The same exports as [API Index](API-Index), grouped by the "
+               "question you arrived with rather than by name. Two indexes for "
+               "two ways of remembering things.")
+    out.append("")
+    index = {e.name: e for e in exports}
+    placed = set()
+    seen_titles = []
+    for key, question in SECTION_QUESTIONS:
+        names = sorted(n for n, sec in sections.items()
+                       if sec == key and n in index and n not in placed)
+        if not names:
+            continue
+        placed.update(names)
+        if question not in seen_titles:
+            seen_titles.append(question)
+            out.append(f"## {question}")
+            out.append("")
+        for n in names:
+            e = index[n]
+            out.append(f"- [`{e.display}`]({e.page}#{e.anchor.lower()}) "
+                       f"{md_escape(first_sentence(e.description))}")
+        out.append("")
+    leftover = sorted(n for n in index if n not in placed)
+    if leftover:
+        out.append("## Types and enums")
+        out.append("")
+        for n in leftover:
+            e = index[n]
+            out.append(f"- [`{e.display}`]({e.page}#{e.anchor.lower()}) "
+                       f"{md_escape(first_sentence(e.description))}")
+        out.append("")
+    return "\n".join(out)
+
+
 def main():
     if not SOURCE.exists():
         sys.exit(f"source not found: {SOURCE}")
@@ -540,6 +641,12 @@ def main():
 
     (DOCS / "API-Index.md").write_text(render_index(exports), encoding="utf-8")
     print(f"  {'API-Index.md':24s} {len(exports):3d} rows")
+
+    sections = section_of(source_lines)
+    (DOCS / "Task-Index.md").write_text(
+        render_task_index(exports, sections), encoding="utf-8")
+    grouped = sum(1 for n in sections if sections[n])
+    print(f"  {'Task-Index.md':24s} {grouped:3d} grouped")
 
     if written != len(exports):
         sys.exit(f"emitted {written} exports but parsed {len(exports)}")
